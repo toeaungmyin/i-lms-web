@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Assignment;
 use App\Models\Category;
+use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -52,14 +54,37 @@ class CourseSeeder extends Seeder
 
             foreach ($courses as $course) {
                 $imageID = $index > 0 ? '-'.$index : '';
-                Course::create([
+                $course = Course::create([
                     'cover' => 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image' . $imageID . '.jpg',
                     'title' => ucwords($course),
                     'description' => fake()->text(),
                     'category_id' => $category->id,
                     'instructor_id' => User::whereRole('instructor')->inRandomOrder()->first()->id,
                 ]);
-                $index++;
+
+                for ($i = 0; $i < 2; $i++) {
+                    Chapter::create([
+                        'course_id' => $course->id,
+                        'title' => 'Chapter ' . ($i + 1) . ': ' . ucwords($course->title),
+                        'description' => fake()->text(),
+                        'assets' => json_encode(['storage/courses/assets/Intermediate.pptx'], true),
+                    ]);
+                }
+
+                for ($i = 0; $i < 2; $i++) {
+                    Assignment::create([
+                        'title' => 'Assignment ' . ($i + 1) . ': ' . ucwords($course->title),
+                        'course_id' => $course->id,
+                        'file' => 'storage/courses/assets/Intermediate.pptx',
+                        'due_date' => now()->addDays(7),
+                    ]);
+                }
+
+                if ($index > 10) {
+                    $index = 1;
+                } else {
+                    $index++;
+                }
             }
         }
 

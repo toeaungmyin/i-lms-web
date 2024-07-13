@@ -18,6 +18,6 @@ class Event extends Model
         'cover',
         'title',
         'description',
-        'event_date',
+        'date',
     ];
 }

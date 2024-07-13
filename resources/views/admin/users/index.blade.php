@@ -5,24 +5,23 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 relative">
-        @session('message')
-            <div class="absolute top-0 w-full p-3 text-center bg-red-100">
-                {{ $value }}
-            </div>
-        @endsession
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="flex justify-between py-6">
-                        <x-search-form/>
-                        <div class="flex py-1.5">
-                            <x-primary-button>{{ __('New User') }}</x-primary-button>
-                        </div>
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900">
+                <div class="flex justify-between items-center py-6 gap-2">
+                    <x-search-form action="{{ route('dashboard.users') }}"/>
+                    <div class="flex py-1.5">
+                        <a href="{{ route('dashboard.user.create') }}" class="text-white text-center uppercase bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{{ __('New User') }}</a>
                     </div>
-                    @include('admin.users.partials.users-table')
                 </div>
-            </div>
+                    @include('admin.users.partials.users-table')
+                    {{ $users->onEachSide(0)->links() }}
+                </div>
         </div>
     </div>
+
+    @push('scripts')
+
+    @endpush
 </x-app-layout>
+

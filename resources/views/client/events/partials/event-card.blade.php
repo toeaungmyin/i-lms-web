@@ -1,5 +1,5 @@
 <a href="#" class="w-full flex flex-col lg:flex-row items-center bg-white border-gray-200 rounded-lg shadow hover:bg-gray-100">
-    <img class="object-cover lg:h-72 rounded-t-lg md:rounded-none md:rounded-s-lg" src="{{ $event->cover }}" alt="{{ $event->title }}">
+    <img class="object-cover aspect-[4/3] lg:h-72 rounded-t-lg md:rounded-none md:rounded-s-lg" src="{{ $event->cover }}" alt="{{ $event->title }}">
     <div class="w-full flex flex-col justify-between p-16 leading-normal">
             <h5 class="mb-0 text-2xl font-bold tracking-tight text-gray-900 ">{{ $event->title }}</h5>
             <p class="mb-3 font-normal text-justify text-gray-700">

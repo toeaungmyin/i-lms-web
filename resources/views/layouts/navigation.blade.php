@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('dashboard.events')" :active="request()->routeIs('dashboard.events')">
                         {{ __('Events') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('dashboard.courses')" :active="request()->routeIs('dashboard.courses')">
+                        {{ __('Courses') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -87,6 +90,10 @@
 
             <x-responsive-nav-link :href="route('dashboard.events')" :active="request()->routeIs('dashboard.events')">
                 {{ __('Events') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('dashboard.courses')" :active="request()->routeIs('dashboard.courses')">
+                {{ __('Courses') }}
             </x-responsive-nav-link>
 
         </div>

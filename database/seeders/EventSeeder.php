@@ -23,16 +23,31 @@ class EventSeeder extends Seeder
             'Language Immersion Camp',
             'Cross-Cultural Art Exhibition',
             'Language Proficiency Contests',
-            'Cultural Dance Performance'
+            'Cultural Dance Performance',
+            'International Film Festival',
+            'Global Poetry Slam',
+            'Cultural Fashion Show',
+            'Language Trivia Night',
+            'World Cuisine Cooking Class',
+            'Language and Technology Seminar',
+            'Cultural Heritage Walk',
+            'International Book Club',
+            'Multilingual Theatre Production',
+            'Cross-Cultural Panel Discussion'
         ];
-
-        foreach ($events as $key => $event) {
-            Event::create([
-                'cover'=> 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-'.$key + 1 .'.jpg',
+        $index = 1;
+        foreach ($events as $event) {
+            Event::create(['cover' => 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-' . $index . '.jpg',
                 'title'=> ucwords($event),
                 'description'=>fake()->text(),
-                'event_date'=>fake()->date(),
+                'date' => fake()->date(),
             ]);
+
+            if ($index > 10) {
+                $index = 1;
+            } else {
+                $index++;
+            }
         }
     }
 }

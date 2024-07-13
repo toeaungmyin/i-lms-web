@@ -16,7 +16,6 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "alertifyjs": "^1.14.0",
         "flowbite": "^2.4.1"
     }
 }

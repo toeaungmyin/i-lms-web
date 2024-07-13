@@ -1,0 +1,170 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Course;
+use App\Models\Chapter;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
+class ChapterController extends Controller
+{
+    //this controller return response for api
+    public function store(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'course_id' => 'required|integer',
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'assets' => 'required|array',
+                'assets.*' => 'required|file|mimes:pptx,pdf,docx,zip|max:20000',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => [
+                        'status' => 'error',
+                        'content' => 'Validation Error',
+                        'log' => $validator->errors()
+                    ],
+                ], 422);
+            }
+
+            $validatedData = $validator->validated();
+
+            $course = Course::findOrFail($validatedData['course_id']);
+
+            if ($request->hasFile('assets')) {
+                $assets = [];
+                foreach ($request->file('assets') as $key => $file) {
+                    $fileName = $course->name . $validatedData['title'] . $key . '.' . $file->getClientOriginalExtension();
+                    Storage::disk('public')->putFileAs('courses/assets', $file, $fileName);
+                    $assets[] = 'storage/courses/assets/' . $fileName;
+                }
+
+                $validatedData['assets'] = json_encode($assets);
+            }
+
+            $chapter = Chapter::create($validatedData);
+
+            return response()->json([
+                'message' => [
+                    'status' => 'success',
+                    'content' => $chapter->title . ' is created successfully',
+                ],
+                'data' => $chapter
+            ], 201);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'message' => [
+                    'status' => 'error',
+                    'content' => 'Failed to create chapter',
+                    'log' => $e->getMessage()
+                ],
+            ], 500);
+        }
+    }
+
+    public function update(Request $request, string $id)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'course_id' => 'required|integer',
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'assets.*' => 'required|file|mimes:pptx,pdf,docx,zip|max:20000',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $validatedData = $validator->validated();
+
+            $course = Course::findOrFail($validatedData['course_id']);
+
+            $chapter = $course->chapters()->find($id);
+
+            if (!$chapter) {
+                return response()->json([
+                    'message' => 'Chapter not found',
+                ], 404);
+            }
+
+            if ($request->hasFile('assets')) {
+                $assets = [];
+                foreach ($request->file('assets') as $key => $file) {
+
+                    if ($chapter->assets) {
+                        foreach (json_decode($chapter->assets, true) as $asset) {
+                            Storage::disk('public')->delete($asset);
+                        }
+                    }
+
+                    $fileName = $course->name . $validatedData['title'] . $key . '.' . $file->getClientOriginalExtension();
+                    Storage::disk('public')->putFileAs('courses/assets', $file, $fileName);
+                    $assets[] = 'storage/courses/assets/' . $fileName;
+                }
+
+                $validatedData['assets'] = json_encode($assets);
+            }
+
+            $chapter->update(array_filter($validatedData, function ($value) {
+                return $value !== null;
+            }));
+
+            return response()->json([
+                'message' => [
+                    'status' => 'success',
+                    'content' => $chapter->title . ' is updated successfully',
+                ],
+                'data' => $chapter
+            ], 201);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'message' => [
+                    'status' => 'error',
+                    'content' => 'Failed to update this chapter',
+                    'log' => $e->getMessage()
+                ],
+            ], 500);
+        }
+    }
+
+    public function destroy(string $id)
+    {
+        try {
+            $chapter = Chapter::findOrFail($id);
+            $assets = json_decode($chapter->assets, true);
+
+            foreach ($assets as $asset) {
+                Storage::disk('public')->delete($asset);
+            }
+
+            $chapter->delete();
+
+            return response()->json([
+                'message' => [
+                    'status' => 'success',
+                    'content' => 'Chapter is deleted successfully',
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => [
+                    'status' => 'error',
+                    'content' => 'Failed to delete this chapter',
+                    'log' => $e->getMessage()
+                ],
+            ], 500);
+        }
+    }
+}

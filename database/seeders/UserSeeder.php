@@ -16,28 +16,45 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = ['admin', 'instructor'];
+        $users = ['admin'];
         $config= Config::first();
         foreach ($users as $user) {
             User::create([
                 'name' => ucwords($user),
                 'email' => $user.'@gmail.com',
-                'STDID' => $config->generate_student_id(),
+                'STDID' => 'admin',
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
                 'remember_token' => Str::random(10),
             ])->assignRole($user);
         }
 
+        for ($i = 0; $i < 5; $i++) {
+            User::create([
+                'name' => fake()->name(),
+                'email' => fake()->unique()->safeEmail(),
+                'phone' => '09' . random_int(100000000, 999999999),
+                'STDID' => $config->generate_student_id(),
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+            ])->assignRole('instructor');
+
+            $config->update_student_id_index();
+        }
+
         for ($i = 0; $i < 10; $i++) {
             User::create([
                 'name' => fake()->name(),
                 'email' => fake()->unique()->safeEmail(),
+                'phone' => '09' . random_int(100000000, 999999999),
                 'STDID' => $config->generate_student_id(),
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
                 'remember_token' => Str::random(10),
             ])->assignRole('student');
+
+            $config->update_student_id_index();
         }
     }
 }

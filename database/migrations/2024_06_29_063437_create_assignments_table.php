@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('assignments', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
             $table->unsignedBigInteger('course_id');
             $table->string('file')->nullable();
-            $table->timestamp('expired_at');
+            $table->timestamp('due_date');
             $table->timestamps();
 
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');

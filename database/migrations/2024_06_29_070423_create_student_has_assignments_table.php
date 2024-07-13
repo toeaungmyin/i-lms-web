@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('assignment_id');
+            $table->text('files');
+            $table->text('comment')->nullable();
+            $table->enum('status', ['pending', 'completed'])->nullable();
             $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');

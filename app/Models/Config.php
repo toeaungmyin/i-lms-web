@@ -24,9 +24,12 @@ class Config extends Model
     public function generate_student_id(){
         $index = $this->curr_id_index + 1;
         $new_std_id = $this->id_prefix . '-' . str_pad($index, 4, '0', STR_PAD_LEFT);
-        $this->update([
-            'curr_id_index'=>$index
-        ]);
         return $new_std_id;
+    }
+
+    public function update_student_id_index()
+    {
+        $this->curr_id_index = $this->curr_id_index + 1;
+        $this->save();
     }
 }

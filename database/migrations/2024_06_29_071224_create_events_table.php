@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('cover');
             $table->string('title');
-            $table->string('description');
-            $table->timestamp('event_date');
+            $table->text('description');
+            $table->timestamp('date');
             $table->timestamps();
         });
     }

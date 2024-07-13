@@ -36,9 +36,9 @@ class Course extends Model
         return $this->hasMany(User::class);
     }
 
-    public function lessons()
+    public function chapters()
     {
-        return $this->hasMany(Lesson::class);
+        return $this->hasMany(Chapter::class);
     }
 
     public function quizzes()
@@ -46,7 +46,7 @@ class Course extends Model
         return $this->hasMany(Quizz::class);
     }
 
-    public function assignment()
+    public function assignments()
     {
         return $this->hasMany(Assignment::class);
     }

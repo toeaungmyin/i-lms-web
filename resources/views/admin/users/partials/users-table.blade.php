@@ -34,7 +34,7 @@
                         <a href="mailto:{{ $user->email }}" class="font-medium">{{ $user->email }}</a>
                     </td>
                     <td class="px-6 py-4">
-                        {{ $user->role->name }}
+                        {{ Str::title($user->role->name) }}
                     </td>
                     <td class="px-6 py-4">
                         <form method="post" action="{{ route('dashboard.users.destroy',$user->id) }}" class=" font-medium text-red-600 dark:text-red-500 hover:underline">
@@ -47,6 +47,14 @@
                     </td>
                 </tr>
             @endforeach
+
+            @if ($users->isEmpty())
+                <tr>
+                    <td colspan="5" class="text-center text-lg py-4">
+                        No users found
+                    </td>
+                </tr>
+            @endif
         </tbody>
     </table>
 </div>

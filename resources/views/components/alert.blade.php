@@ -67,7 +67,13 @@
 
             }
 
-            if (message.content === 'Validation Error' && message.log) {
+            renenderAlertMessage(message,messageBox)
+
+            startAlertAnimation(alertBox);
+        }
+
+        const renenderAlertMessage = (message,messageBox) =>{
+            if (message.content === 'Validation Failed' && message.log) {
 
                 messageBox.innerHTML = '';
                 messageBox.innerHTML += `<span class="font-semibold">${message.content}</span>`;
@@ -89,7 +95,15 @@
             }
             else {
                 messageBox.innerHTML = `<span class="font-semibold">${message.content}</span>`;
+
+                if(message.status === 'error' || message.status === 'warning'){
+                    console.error(message.content);
+                    console.error(message.log);
+                }
             }
+        }
+
+        const startAlertAnimation = (alertBox) => {
 
             alertBox.classList.remove('translate-x-[150%]');
             alertBox.classList.add('translate-x-0');
@@ -129,5 +143,8 @@
                 }, remainingTime);
             });
         }
+
+
+
     </script>
 @endpush

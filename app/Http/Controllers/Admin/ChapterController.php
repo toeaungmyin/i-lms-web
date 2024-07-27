@@ -27,7 +27,7 @@ class ChapterController extends Controller
                 return response()->json([
                     'message' => [
                         'status' => 'error',
-                        'content' => 'Validation Error',
+                        'content' => 'Validation Failed',
                         'log' => $validator->errors()
                     ],
                 ], 422);
@@ -80,9 +80,11 @@ class ChapterController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors()
+                return response()->json(['message' => [
+                        'status' => 'error',
+                        'content' => 'Validation Failed',
+                        'log' => $validator->errors()
+                    ],
                 ], 422);
             }
 

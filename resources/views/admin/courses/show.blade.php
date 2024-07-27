@@ -6,27 +6,28 @@
     </x-slot>
     @include('admin.courses.partials.progress-init')
 
-    <div class="max-w-7xl mx-auto flex flex-col gap-12 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col md:gap-10 sm:px-6 lg:px-8">
         <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
             @include('admin.courses.partials.edit-course-form')
         </div>
 
-        <div class="flex flex-col gap-2">
-            @foreach ($course->chapters as $key => $chapter)
-            <div id="chapter-id-{{ $chapter->id }}" class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
-                @include('admin.courses.partials.edit-chapter-form')
+        <div class="flex flex-col md:gap-2">
+            <div class="flex flex-col md:gap-2" id="accordion-flush-chapter" data-accordion="collapse" data-active-classes="bg-white">
+                @foreach ($course->chapters as $key => $chapter)
+                    @include('admin.courses.partials.edit-chapter-form')
+                @endforeach
             </div>
-            @endforeach
+
             <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
                 @include('admin.courses.partials.add-chapter-form')
             </div>
         </div>
-        <div class="flex flex-col gap-2">
-            @foreach ($course->assignments as $key => $assignment)
-            <div id="assignment-id-{{ $assignment->id }}" class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
-                @include('admin.courses.partials.edit-assignment-form')
+        <div class="flex flex-col md:gap-2">
+            <div class="flex flex-col md:gap-2" id="accordion-flush-assignment" data-accordion="collapse" data-active-classes="bg-white">
+                @foreach ($course->assignments as $key => $assignment)
+                    @include('admin.courses.partials.edit-assignment-form')
+                @endforeach
             </div>
-            @endforeach
             <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
                 @include('admin.courses.partials.add-assignment-form')
             </div>
@@ -143,7 +144,84 @@
     @endpush
     @push('post-scripts')
         <script>
+            const handleUpdateAssignment = (form) => {
+                const formID = form.id.split('-').pop()
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    startLoading(true,`assignment-form-submit-btn-${formID}`)
+                    try {
+                        const formData = new FormData(form);
+                        const response = await axios.post(form.action,formData);
 
+                        document.getElementById(`assignment-title-${formID}`).value = response.data.data.title;
+                        const date = new Date(response.data.data.due_date);
+                        const month = date.getMonth() + 1;
+                        const day = date.getDate();
+                        const year = date.getFullYear();
+                        document.getElementById(`assignment-due-date-${formID}`).value = `${month}/${day}/${year}`;
+                        document.getElementById(`assignment-file-label-${formID}`).innerText = `Uploaded file: ${response.data.data.file.split('/').pop()}`;
+                        document.getElementById(`assignment-heading-${formID}`).innerText = response.data.data.title;
+
+                        showAlertMessage(response.data.message)
+
+                    } catch (error) {
+                        if (error.response && error.response.data.errors) {
+                            console.log(error.response.data.errors);
+                            // Optionally, you can display these errors to the user
+                            showAlertMessage(error.response.data.message)
+
+                        } else {
+                            console.error(error);
+                            // Handle other errors, e.g., network issues
+                            showAlertMessage(error.response.data.message)
+
+                        }
+                    }finally{
+                        startLoading(false,`assignment-form-submit-btn-${formID}`)
+                    }
+                });
+            }
+
+            const handleDeleteAssignment = (btn) => {
+                const assignment_id = btn.getAttribute('data-assignment-id');
+                btn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    startLoading(true,btn.id)
+                    try {
+                        const response = await axios.delete(`${window.location.origin}/dashboard/assignment/${assignment_id}`);
+
+                        showAlertMessage(response.data.message)
+
+                        document.getElementById(`assignment-id-${assignment_id}`).classList.add('hidden')
+
+                    } catch (error) {
+                        if (error.response && error.response.data.errors) {
+                            console.log(error.response.data.errors);
+                            // Optionally, you can display these errors to the user
+                            showAlertMessage(error.response.data.message)
+                        } else {
+                            console.error(error);
+                            // Handle other errors, e.g., network issues
+                            showAlertMessage(error.response.data.message)
+                        }
+                    } finally {
+                        startLoading(false,btn.id)
+                    }
+                });
+            }
+
+            const updateAssignmentForms = document.querySelectorAll('#accordion-flush-assignment form');
+
+            updateAssignmentForms.forEach((form)=>{
+                handleUpdateAssignment(form)
+            })
+
+            const deleteAssignmentButtons = document.querySelectorAll('#delete-assignment-btn');
+
+            deleteAssignmentButtons.forEach((btn)=>{
+                handleDeleteAssignment(btn)
+
+            })
         </script>
     @endpush
 </x-app-layout>

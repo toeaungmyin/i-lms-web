@@ -24,9 +24,11 @@ class AssignmentController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors()
+                return response()->json(['message' => [
+                        'status' => 'error',
+                        'content' => 'Validation Failed',
+                        'log' => $validator->errors()
+                    ],
                 ], 422);
             }
 
@@ -50,12 +52,20 @@ class AssignmentController extends Controller
 
             $assignment = Assignment::create($validatedData);
 
+            $data = [
+                'id' => $assignment->id,
+                'title' => $assignment->title,
+                'due_date' => Carbon::parse($assignment->due_date)->format('m/d/Y'),
+                'file' => $assignment->file,
+                'course_id' => $assignment->course_id,
+            ];
+
             return response()->json([
                 'message' => [
                     'status' => 'success',
                     'content' => 'Assignment created successfully',
                 ],
-                'data' => $assignment
+                'data' => $data
             ], 201);
         } catch (\Exception $e) {
 
@@ -81,8 +91,11 @@ class AssignmentController extends Controller
 
             if ($validator->fails()) {
                 return response()->json([
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors()
+                    'message' => [
+                        'status' => 'error',
+                        'content' => 'Validation Failed',
+                        'log' => $validator->errors()
+                    ],
                 ], 422);
             }
 

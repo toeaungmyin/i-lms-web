@@ -19,8 +19,8 @@ class ChapterController extends Controller
                 'course_id' => 'required|integer',
                 'title' => 'required|string',
                 'description' => 'required|string',
-                'assets' => 'required|array',
-                'assets.*' => 'required|file|mimes:pptx,pdf,docx,zip|max:20000',
+                'assets' => 'nullable|array',
+                'assets.*' => 'nullable|file|mimes:pptx,pdf,docx,zip|max:20000',
             ]);
 
             if ($validator->fails()) {

@@ -1,4 +1,4 @@
-<form class="p-6" action="{{ route('dashboard.course.update',$course->id) }}" method="POST" enctype="multipart/form-data">
+<form class="p-6" action="{{ route('dashboard.courses.update',$course->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="grid gap-6 mb-6 md:grid-cols-2">

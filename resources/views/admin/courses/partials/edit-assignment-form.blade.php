@@ -11,7 +11,7 @@
         </button>
     </h1>
     <div id="accordion-flush-assignment-body-{{ $assignment->id }}" class="hidden relative p-4 pt-2 mt-2" aria-labelledby="accordion-flush-heading-{{ $assignment->id }}">
-        <form action="{{ route('dashboard.assignment.update',$assignment->id) }}" id="update-assignment-form-{{ $assignment->id }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('dashboard.assignments.update',$assignment->id) }}" id="update-assignment-form-{{ $assignment->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="flex flex-col gap-2 mb-3">
@@ -61,8 +61,4 @@
 
 
 @push('post-scripts')
-    <script>
-
-
-    </script>
 @endpush

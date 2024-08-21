@@ -11,7 +11,7 @@
         </button>
     </h1>
     <div id="accordion-flush-chapter-body-{{ $chapter->id }}" class="hidden relative p-4 pt-2 mt-2" aria-labelledby="accordion-collapse-heading-{{ $chapter->id }}">
-        <form action="{{ route('dashboard.chapter.update',$chapter->id) }}" id="update-chapter-form-{{ $chapter->id }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('dashboard.chapters.update',$chapter->id) }}" id="update-chapter-form-{{ $chapter->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="flex flex-col gap-2 mb-3">
@@ -90,7 +90,7 @@
             e.preventDefault();
             startLoading(true,"delete-lesson-form-{{ $chapter->id }}")
             try {
-                const response = await axios.delete("{{ route('dashboard.chapter.destroy',$chapter->id) }}");
+                const response = await axios.delete("{{ route('dashboard.chapters.destroy',$chapter->id) }}");
                 console.log(response.data);
 
                 document.getElementById("chapter-id-{{ $chapter->id }}").classList.add('hidden')
@@ -120,7 +120,7 @@
 
             try {
                 const formData = new FormData(updateLessonForm{{ $chapter->id }});
-                const response = await axios.post("{{ route('dashboard.chapter.update',$chapter->id) }}",formData);
+                const response = await axios.post("{{ route('dashboard.chapters.update',$chapter->id) }}",formData);
 
                 showAlertMessage(response.data.message.status,response.data.message.content)
 

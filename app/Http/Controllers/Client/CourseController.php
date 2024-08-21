@@ -36,4 +36,12 @@ class CourseController extends Controller
             'categories' => $categories
         ]);
     }
+
+    public function show($id)
+    {
+        $course = Course::findOrFail($id);
+        return view('client.courses.show', [
+            'course' => $course
+        ]);
+    }
 }

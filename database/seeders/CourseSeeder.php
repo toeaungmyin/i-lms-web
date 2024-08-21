@@ -6,6 +6,7 @@ use App\Models\Assignment;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\Quizz;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -77,6 +78,14 @@ class CourseSeeder extends Seeder
                         'course_id' => $course->id,
                         'file' => 'storage/courses/assets/Intermediate.pptx',
                         'due_date' => now()->addDays(7),
+                    ]);
+                }
+
+                for ($i = 0; $i < 5; $i++) {
+                    Quizz::create([
+                        'course_id' => $course->id,
+                        'question' => 'Is the capital of ' . $cat_key . ' is ' . fake()->city() . '?',
+                        'answer' => 'true',
                     ]);
                 }
 

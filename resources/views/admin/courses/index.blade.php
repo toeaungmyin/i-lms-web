@@ -11,7 +11,7 @@
                 <div class="flex justify-between items-center py-6 gap-2">
                     <x-search-form/>
                     <div class="flex py-1.5">
-                        <a href="{{ route('dashboard.course.create') }}" class="text-white text-center uppercase bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{{ __('New Course') }}</a>
+                        <a href="{{ route('dashboard.courses.create') }}" class="text-white text-center uppercase bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{{ __('New Course') }}</a>
                     </div>
                 </div>
                 @include('admin.courses.partials.courses-table')

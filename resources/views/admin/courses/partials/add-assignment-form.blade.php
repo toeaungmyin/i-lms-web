@@ -1,4 +1,4 @@
-<form class="p-4" action="{{ route('dashboard.assignment.store') }}" id="store-assignment-form-new" method="POST" enctype="multipart/form-data">
+<form class="p-4" action="{{ route('dashboard.assignments.store') }}" id="store-assignment-form-new" method="POST" enctype="multipart/form-data">
     @csrf
     <h1 class="text-lg font-semibold mb-3">
         <div class="flex gap-4">
@@ -54,7 +54,7 @@
             startLoading(true,"assignment-form-submit-btn-new")
             try {
                 const formData = new FormData(addAssignmentForm);
-                const response = await axios.post("{{ route('dashboard.assignment.store') }}",formData);
+                const response = await axios.post("{{ route('dashboard.assignments.store') }}",formData);
 
                 showAlertMessage(response.data.message)
                 renenderAssignmentAccordion(response.data.data)
@@ -90,7 +90,7 @@
                         </button>
                     </h1>
                     <div id="accordion-flush-assignment-body-${data.id}" class="hidden relative p-4 pt-2 mt-2" aria-labelledby="accordion-flush-assignment-heading-${data.id}">
-                        <form action="${window.location.origin}/dashboard/assignment/${data.id}" id="update-assignment-form-${data.id}" method="POST" enctype="multipart/form-data">
+                        <form action="${window.location.origin}/dashboard/assignments/${data.id}" id="update-assignment-form-${data.id}" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="PUT">
                             <div class="flex flex-col gap-2 mb-3">
                                 <div>

@@ -1,5 +1,5 @@
 
-<form class="p-4" id="addChapterForm" action="{{ route('dashboard.chapter.store') }}" method="POST" enctype="multipart/form-data">
+<form class="p-4" id="addChapterForm" action="{{ route('dashboard.chapters.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <h1 class="text-lg font-semibold mb-3">
         <div class="flex gap-4">
@@ -74,7 +74,7 @@
             try {
                 const formData = new FormData(addNewChapterForm);
 
-                const response = await axios.post("{{ route('dashboard.chapter.store') }}", formData);
+                const response = await axios.post("{{ route('dashboard.chapters.store') }}", formData);
 
                 renenderChapter(response.data.data)
 
@@ -109,7 +109,7 @@
                         </button>
                     </h1>
                     <div id="accordion-flush-chapter-body-${ data.id }" class="hidden relative p-4 pt-2 mt-2" aria-labelledby="accordion-collapse-heading-${ data.id }">
-                        <form action="{{ route('dashboard.chapter.update',$chapter->id) }}" id="update-chapter-form-${ data.id }" method="POST" enctype="multipart/form-data">
+                        <form action="${window.location.origin}/dashboard/chapters/${data.id}" id="update-chapter-form-${ data.id }" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="flex flex-col gap-2 mb-3">

@@ -4,7 +4,7 @@
             <x-search-form/>
             <x-date-filter/>
         </div>
-        <div class="flex flex-col gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             @foreach ($events as $event)
                 @include('client.events.partials.event-card')
             @endforeach

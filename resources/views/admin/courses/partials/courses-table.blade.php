@@ -27,7 +27,7 @@
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium max-w-sm text-gray-900 whitespace-nowrap dark:text-white">
                         <div class="flex flex-col gap-2">
-                            <a href="{{ route('dashboard.course.show',$course->id) }}" class="text-lg font-semibold hover:underline">{{ $course->title }}</a>
+                            <a href="{{ route('dashboard.courses.show',$course->id) }}" class="text-lg font-semibold hover:underline">{{ $course->title }}</a>
                             <p class="text-wrap text-justify">
                                 {{ $course->description }}
                             </p>
@@ -40,7 +40,7 @@
                         {{ $course->instructor->name }}
                     </td>
                     <td class="px-6 py-4">
-                        <form method="post" action="{{ route('dashboard.course.destroy',$course->id) }}" class=" font-medium text-red-600 dark:text-red-500 hover:underline">
+                        <form method="post" action="{{ route('dashboard.courses.destroy',$course->id) }}" class=" font-medium text-red-600 dark:text-red-500 hover:underline">
                             @csrf
                             @method('delete')
                             <button type="submit">

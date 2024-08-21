@@ -1,5 +1,5 @@
 
-<form action="{{ route('dashboard.course.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('dashboard.courses.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="grid gap-6 mb-6 md:grid-cols-2">
         <div class="grid gap-6 grid-row-2">

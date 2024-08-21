@@ -11,6 +11,42 @@
             @include('admin.courses.partials.edit-course-form')
         </div>
 
+        <div class="bg-white text-gray-900 mb-4 border-gray-200 rounded-md">
+            <ul class="flex text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 rounded hover:text-gray-600" id="chapters-tab" data-tabs-target="#chapters" type="button" role="tab" aria-controls="chapters" aria-selected="false">Chapters</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 rounded hover:text-gray-600" id="assignments-tab" data-tabs-target="#assignments" type="button" role="tab" aria-controls="assignments" aria-selected="false">Assignments</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 rounded hover:text-gray-600" id="quizzes-tab" data-tabs-target="#quizzes" type="button" role="tab" aria-controls="quizzes" aria-selected="false">Quizzes</button>
+                </li>
+                <li role="presentation">
+                    <button class="inline-block p-4 rounded hover:text-gray-600" id="students-tab" data-tabs-target="#students" type="button" role="tab" aria-controls="students" aria-selected="false">Students</button>
+                </li>
+            </ul>
+        </div>
+
+        <div id="default-tab-content">
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="chapters" role="tabpanel" aria-labelledby="chapters-tab">
+                <div class="flex flex-col md:gap-2" id="accordion-flush-chapter" data-accordion="collapse" data-active-classes="bg-white">
+                    @foreach ($course->chapters as $key => $chapter)
+                        @include('admin.courses.partials.edit-chapter-form')
+                    @endforeach
+                </div>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            </div>
+        </div>
+
         <div class="flex flex-col md:gap-2">
             <div class="flex flex-col md:gap-2" id="accordion-flush-chapter" data-accordion="collapse" data-active-classes="bg-white">
                 @foreach ($course->chapters as $key => $chapter)
@@ -31,6 +67,15 @@
             <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
                 @include('admin.courses.partials.add-assignment-form')
             </div>
+        </div>
+        <div class="flex flex-col md:gap-2 bg-white text-gray-900 overflow-hidden shadow-sm rounded border p-4">
+            <div class="flex gap-4 items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-question"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/></svg>
+                <h1 class="text-lg font-semibold">
+                    Exam Quizzes
+                </h1>
+            </div>
+            @include('admin.courses.partials.edit-quizz-form')
         </div>
     </div>
     @push('pre-scripts')
@@ -188,7 +233,7 @@
                     e.preventDefault();
                     startLoading(true,btn.id)
                     try {
-                        const response = await axios.delete(`${window.location.origin}/dashboard/assignment/${assignment_id}`);
+                        const response = await axios.delete(`${window.location.origin}/dashboard/assignments/${assignment_id}`);
 
                         showAlertMessage(response.data.message)
 
@@ -222,6 +267,144 @@
                 handleDeleteAssignment(btn)
 
             })
+
+            const updateQuizz = (quizzId) => {
+                const quizzForm = document.getElementById(`quizz-form-${quizzId}`);
+                quizzForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    startLoading(true,"quizz-form-submit-btn-"+quizzId)
+
+                    try {
+                        const formData = new FormData(quizzForm);
+
+                        const response = await axios.post(quizzForm.action, formData);
+
+                        document.querySelector(`#quizz-form-${quizzId} textarea[name="question"]`).value = response.data.data.question;
+                        document.querySelector(`#quizz-form-${quizzId} input[name="answer"]`).value = response.data.data.answer;
+
+                        showAlertMessage(response.data.message)
+
+                    } catch (error) {
+                        if (error.response && error.response.data.errors) {
+                            showAlertMessage(error.response.data.message)
+                        } else {
+                            console.error(error);
+                            // Handle other errors, e.g., network issues
+                            showAlertMessage(error.response.data.message)
+                        }
+                    }
+                    startLoading(false,"quizz-form-submit-btn-"+quizzId)
+                });
+            }
+
+            const handleUpdateQuizzes = () => {
+                const quizzesForm = document.querySelectorAll('form[id^="quizz-form-"]');
+                quizzesForm.forEach((quizzForm) => {
+                    const quizzId = quizzForm.id.split('-').pop();
+                    updateQuizz(quizzId);
+                });
+            }
+
+            handleUpdateQuizzes()
+
+            const handleQuizzEditor = (formId) => {
+                const quizzEditor = document.querySelector(`#${formId} textarea[name="question"]`);
+
+                const quizzEditorTools = document.querySelectorAll(`#${formId} #quizz-editor-tools button`);
+
+                let historyStack = [];
+                let redoStack = [];
+
+                function saveState() {
+                    historyStack.push(quizzEditor.value);
+                    if (historyStack.length > 50) historyStack.shift();  // Limit history size to 50 states
+                }
+
+                // Save the initial state
+                saveState();
+
+                quizzEditorTools.forEach((child) => {
+                    child.addEventListener('click', (e) => {
+                        const startPos = quizzEditor.selectionStart;
+                        const endPos = quizzEditor.selectionEnd;
+
+                        let insertText = '';
+
+                        switch (child.id) {
+                            case 'add-paragraph':
+                                insertText = `<p class=""></p>`;
+                                break;
+                            case 'add-list':
+                                insertText = `<ol class="list-inside" style="list-style-type: lower-alpha;">\n\t<li></li>\n</ol>`;
+                                break;
+                            case 'add-blank':
+                                insertText = `__________`;
+                                break;
+                            case 'redo':
+                                if (redoStack.length > 0) {
+                                    quizzEditor.value = redoStack.pop();
+                                    saveState();
+                                }
+                                break;
+                            case 'undo':
+                                if (historyStack.length > 1) {
+                                    redoStack.push(historyStack.pop());
+                                    quizzEditor.value = historyStack[historyStack.length - 1];
+                                }
+                                break;
+                            case 'clear':
+                                quizzEditor.value = '';
+                                saveState();
+                                return;  // Exit the function if clearing the text
+                            default:
+                                insertText = '';
+                                break;
+                        }
+
+                        saveState();
+
+                        // Insert text at the cursor position
+                        quizzEditor.value = quizzEditor.value.substring(0, startPos) + insertText + quizzEditor.value.substring(endPos);
+                        // Move cursor to the end of the inserted text
+                        quizzEditor.selectionStart = quizzEditor.selectionEnd = startPos + insertText.length;
+
+                        redoStack = [];
+                    });
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'z') {
+                        // Undo operation
+                        e.preventDefault();
+                        if (historyStack.length > 1) {
+                            redoStack.push(historyStack.pop());
+                            quizzEditor.value = historyStack[historyStack.length - 1];
+                        }
+                    }
+                    if (e.ctrlKey && e.key === 'y') {
+                        // Redo operation
+                        e.preventDefault();
+                        if (redoStack.length > 0) {
+                            quizzEditor.value = redoStack.pop();
+                            saveState();
+                        }
+                    }
+                    if (e.key === 'Tab') {
+                        e.preventDefault();
+
+                        saveState();
+
+                    }
+                });
+
+            }
+
+            const allQuizzEditorForms = document.querySelectorAll('form[id^="quizz-form-"]');
+
+            allQuizzEditorForms.forEach((qizzEditorForms) => {
+                handleQuizzEditor(qizzEditorForms.id);
+            });
+            handleQuizzEditor('add-quizz-form')
         </script>
     @endpush
 </x-app-layout>

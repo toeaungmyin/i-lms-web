@@ -14,12 +14,19 @@ class Quizz extends Model
      *
      * @var array<int, string>
      */
+
+    protected $table = 'quizzes';
     protected $fillable = [
         'course_id',
-        'after_lesson_id',
         'question',
         'answer'
     ];
+
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 
 
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\ChapterController as AdminChapterController;
 use App\Http\Controllers\Admin\AssignmentController as AdminAssignmentController;
+use App\Http\Controllers\Admin\QuizzController as AdminQuizzController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\CourseController;
 use App\Http\Controllers\Client\EventController;
@@ -45,22 +46,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/event/{id}', [AdminEventController::class, 'destroy'])->name('dashboard.event.destroy');
 
         Route::get('/courses', [AdminCourseController::class, 'index'])->name('dashboard.courses');
-        Route::get('/course/create', [AdminCourseController::class, 'create'])->name('dashboard.course.create');
-        Route::get('/course/{id}', [AdminCourseController::class, 'show'])->name('dashboard.course.show');
-        Route::post('/course', [AdminCourseController::class, 'store'])->name('dashboard.course.store');
-        Route::put('/course/{id}', [AdminCourseController::class, 'update'])->name('dashboard.course.update');
-        Route::delete('/course/{id}', [AdminCourseController::class, 'destroy'])->name('dashboard.course.destroy');
+        Route::get('/courses/create', [AdminCourseController::class, 'create'])->name('dashboard.courses.create');
+        Route::get('/courses/{id}', [AdminCourseController::class, 'show'])->name('dashboard.courses.show');
+        Route::post('/courses', [AdminCourseController::class, 'store'])->name('dashboard.courses.store');
+        Route::put('/courses/{id}', [AdminCourseController::class, 'update'])->name('dashboard.courses.update');
+        Route::delete('/courses/{id}', [AdminCourseController::class, 'destroy'])->name('dashboard.courses.destroy');
 
         // axios crud api routes
-        Route::get('course/{id}/chapters', [AdminChapterController::class, 'index'])->name('dashboard.chapters');
-        Route::post('/chapter', [AdminChapterController::class, 'store'])->name('dashboard.chapter.store');
-        Route::put('/chapter/{id}', [AdminChapterController::class, 'update'])->name('dashboard.chapter.update');
-        Route::delete('/chapter/{id}', [AdminChapterController::class, 'destroy'])->name('dashboard.chapter.destroy');
+        Route::get('courses/{id}/chapters', [AdminChapterController::class, 'index'])->name('dashboard.chapters');
+        Route::post('/chapters', [AdminChapterController::class, 'store'])->name('dashboard.chapters.store');
+        Route::put('/chapters/{id}', [AdminChapterController::class, 'update'])->name('dashboard.chapters.update');
+        Route::delete('/chapters/{id}', [AdminChapterController::class, 'destroy'])->name('dashboard.chapters.destroy');
 
         Route::get('course/{id}/assignments', [AdminAssignmentController::class, 'index'])->name('dashboard.assignments');
-        Route::post('/assignment', [AdminAssignmentController::class, 'store'])->name('dashboard.assignment.store');
-        Route::put('/assignment/{id}', [AdminAssignmentController::class, 'update'])->name('dashboard.assignment.update');
-        Route::delete('/assignment/{id}', [AdminAssignmentController::class, 'destroy'])->name('dashboard.assignment.destroy');
+        Route::post('/assignments', [AdminAssignmentController::class, 'store'])->name('dashboard.assignments.store');
+        Route::put('/assignments/{id}', [AdminAssignmentController::class, 'update'])->name('dashboard.assignments.update');
+        Route::delete('/assignments/{id}', [AdminAssignmentController::class, 'destroy'])->name('dashboard.assignments.destroy');
+
+        Route::get('courses/{id}/quizzes', [AdminQuizzController::class, 'index'])->name('dashboard.quizzes');
+        Route::post('/quizzes', [AdminQuizzController::class, 'store'])->name('dashboard.quizzes.store');
+        Route::put('/quizzes/{id}', [AdminQuizzController::class, 'update'])->name('dashboard.quizzes.update');
+        Route::delete('/quizzes/{id}', [AdminQuizzController::class, 'destroy'])->name('dashboard.quizzes.destroy');
     });
 });
 

@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('student_has_quizzes', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('quizz_id');
+            $table->unsignedBigInteger('exam_id');
+            $table->unsignedBigInteger('question_id');
+            $table->string('value');
+            $table->boolean('is_correct')->nullable();
             $table->timestamps();
 
-            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('quizz_id')->references('id')->on('quizzes')->onDelete('cascade');
-         });
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade');
+        });
     }
 
     /**

@@ -6,92 +6,71 @@
     </x-slot>
     @include('admin.courses.partials.progress-init')
 
-    <div class="max-w-7xl mx-auto flex flex-col md:gap-10 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col md:gap-6 sm:px-6 lg:px-8">
         <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
             @include('admin.courses.partials.edit-course-form')
         </div>
 
-        <div class="bg-white text-gray-900 mb-4 border-gray-200 rounded-md">
-            <ul class="flex text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+        <div class="border-b bg-white rounded-md">
+            <ul class="flex flex-wrap justify-center -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 rounded hover:text-gray-600" id="chapters-tab" data-tabs-target="#chapters" type="button" role="tab" aria-controls="chapters" aria-selected="false">Chapters</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase" id="chapter-tab" data-tabs-target="#chapter" type="button" role="tab" aria-controls="chapter" aria-selected="false">Chapter</button>
                 </li>
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 rounded hover:text-gray-600" id="assignments-tab" data-tabs-target="#assignments" type="button" role="tab" aria-controls="assignments" aria-selected="false">Assignments</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="assignment-tab" data-tabs-target="#assignment" type="button" role="tab" aria-controls="assignment" aria-selected="false">Assignment</button>
                 </li>
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 rounded hover:text-gray-600" id="quizzes-tab" data-tabs-target="#quizzes" type="button" role="tab" aria-controls="quizzes" aria-selected="false">Quizzes</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="quizzes-tab" data-tabs-target="#quizzes" type="button" role="tab" aria-controls="quizzes" aria-selected="false">Quizz</button>
                 </li>
                 <li role="presentation">
-                    <button class="inline-block p-4 rounded hover:text-gray-600" id="students-tab" data-tabs-target="#students" type="button" role="tab" aria-controls="students" aria-selected="false">Students</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="mark-tab" data-tabs-target="#mark" type="button" role="tab" aria-controls="mark" aria-selected="false">Mark</button>
                 </li>
             </ul>
         </div>
-
         <div id="default-tab-content">
-            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="chapters" role="tabpanel" aria-labelledby="chapters-tab">
-                <div class="flex flex-col md:gap-2" id="accordion-flush-chapter" data-accordion="collapse" data-active-classes="bg-white">
-                    @foreach ($course->chapters as $key => $chapter)
-                        @include('admin.courses.partials.edit-chapter-form')
-                    @endforeach
+            <div class="hidden" id="chapter" role="tabpanel" aria-labelledby="chapter-tab">
+                <div class="flex flex-col md:gap-2">
+                    <div class="flex flex-col md:gap-2" id="accordion-flush-chapter" data-accordion="collapse" data-active-classes="bg-white">
+                        @foreach ($course->chapters as $key => $chapter)
+                            @include('admin.courses.partials.edit-chapter-form')
+                        @endforeach
+                    </div>
+
+                    <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
+                        @include('admin.courses.partials.add-chapter-form')
+                    </div>
                 </div>
             </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-                <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            <div class="hidden" id="assignment" role="tabpanel" aria-labelledby="assignment-tab">
+                <div class="flex flex-col md:gap-2">
+                    <div class="flex flex-col md:gap-2" id="accordion-flush-assignment" data-accordion="collapse" data-active-classes="bg-white">
+                        @foreach ($course->assignments as $key => $assignment)
+                            @include('admin.courses.partials.edit-assignment-form')
+                        @endforeach
+                    </div>
+                    <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
+                        @include('admin.courses.partials.add-assignment-form')
+                    </div>
+                </div>
             </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            <div class="hidden" id="quizzes" role="tabpanel" aria-labelledby="quizzes-tab">
+                <div class="flex flex-col md:gap-2 bg-white text-gray-900 overflow-hidden shadow-sm rounded border p-4">
+                    <div class="flex gap-4 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-question"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/></svg>
+                        <h1 class="text-lg font-semibold">
+                            Exam Questions
+                        </h1>
+                    </div>
+                    @include('admin.courses.partials.edit-quizz-form')
+                </div>
             </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+            <div class="hidden" id="mark" role="tabpanel" aria-labelledby="mark-tab">
                 <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
             </div>
-        </div>
-
-        <div class="flex flex-col md:gap-2">
-            <div class="flex flex-col md:gap-2" id="accordion-flush-chapter" data-accordion="collapse" data-active-classes="bg-white">
-                @foreach ($course->chapters as $key => $chapter)
-                    @include('admin.courses.partials.edit-chapter-form')
-                @endforeach
-            </div>
-
-            <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
-                @include('admin.courses.partials.add-chapter-form')
-            </div>
-        </div>
-        <div class="flex flex-col md:gap-2">
-            <div class="flex flex-col md:gap-2" id="accordion-flush-assignment" data-accordion="collapse" data-active-classes="bg-white">
-                @foreach ($course->assignments as $key => $assignment)
-                    @include('admin.courses.partials.edit-assignment-form')
-                @endforeach
-            </div>
-            <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
-                @include('admin.courses.partials.add-assignment-form')
-            </div>
-        </div>
-        <div class="flex flex-col md:gap-2 bg-white text-gray-900 overflow-hidden shadow-sm rounded border p-4">
-            <div class="flex gap-4 items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-question"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/></svg>
-                <h1 class="text-lg font-semibold">
-                    Exam Quizzes
-                </h1>
-            </div>
-            @include('admin.courses.partials.edit-quizz-form')
         </div>
     </div>
     @push('pre-scripts')
         <script>
-            const startLoading = (status,className) => {
-                const submitBtn = document.getElementById(`${className}`);
-                const loader = document.querySelector(`#${className} #loader`);
-                if(status){
-                    submitBtn.classList.add('flex','gap-2','cursor-not-allowed','opacity-50');
-                    loader && loader.classList.remove('hidden');
-                }else{
-                    submitBtn.classList.remove('flex','gap-2','cursor-not-allowed','opacity-50');
-                    loader && loader.classList.add('hidden');
-                }
-            }
-
             const getIconByFileType = (fileType, fileName) => {
                 const icons = {
                     'application/pdf': "{{ asset('assets/icons/pdf.png') }}",

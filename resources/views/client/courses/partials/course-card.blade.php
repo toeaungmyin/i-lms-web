@@ -10,7 +10,7 @@
             {{ $course->title }}
             </a>
         </h3>
-        <p class="mt-1 text-sm text-gray-500">{{ $course->category->name }}</p>
+        <p class="mt-1 text-sm text-gray-500">{{ $course->category ? $course->category->name : '' }}</p>
         </div>
         <p class="text-sm font-medium text-gray-900">{{ $course->instructor->name }}</p>
     </div>

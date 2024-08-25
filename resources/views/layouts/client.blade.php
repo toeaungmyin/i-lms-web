@@ -12,11 +12,12 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @stack('pre-scripts')
     </head>
     <body class="font-sans antialiased bg-gray-200/90">
         <div class="min-h-screen">
             @include('layouts.client-nav')
-
+            <x-alert/>
             <!-- Page Content -->
             <main>
                 {{ $slot }}
@@ -24,6 +25,7 @@
 
             @include('layouts.footer')
         </div>
-        @stack('scripts')
+        <x-btn-loading/>
+        @stack('post-scripts')
     </body>
 </html>

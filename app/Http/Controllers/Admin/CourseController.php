@@ -14,9 +14,27 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $courses = Course::paginate(10);
+
+        $search = $request->search;
+        $query = Course::query();
+
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhereHas('category', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('instructor', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $courses = $query->paginate(10);
+        $categories = Category::all();
         return view('admin.courses.index', [
-            'courses' => $courses
+            'courses' => $courses,
+            'categories' => $categories
         ]);
     }
 
@@ -43,7 +61,11 @@ class CourseController extends Controller
             'title' => 'required|string',
             'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'description' => 'required|string',
-            'category_id' => 'required|string|exists:categories,id',
+            'category_id' => 'nullable|string|exists:categories,id',
+            'maxExamAttempts' => 'required|numeric',
+            'examTimeLimit' => 'required|numeric',
+            'assignment_grade_percent' => 'required|numeric|min:0|max:100',
+            'exam_grade_percent' => 'required|numeric|min:0|max:100'
         ]);
 
         try {
@@ -88,6 +110,10 @@ class CourseController extends Controller
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'description' => 'nullable|string',
             'category_id' => 'nullable|string|exists:categories,id',
+            'maxExamAttempts' => 'nullable|numeric',
+            'examTimeLimit' => 'nullable|numeric',
+            'assignment_grade_percent' => 'nullable|numeric|min:0|max:100',
+            'exam_grade_percent' => 'nullable|numeric|min:0|max:100'
         ]);
 
         try {
@@ -134,5 +160,63 @@ class CourseController extends Controller
                 ]
             )->withInput();
         }
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'title' => 'nullable|string',
+        ]);
+
+        try {
+            $validated = $request->all();
+
+            Category::create($validated);
+
+            return redirect()->back()->with(
+                'message',
+                [
+                    'status' => 'success',
+                    'content' => 'Category is created successfully',
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error('Failed to create category: ' . $e->getMessage());
+
+            return redirect()->back()->with(
+                'message',
+                [
+                    'status' => 'error',
+                    'content' => 'Failed to create category',
+                    'log' => $e->getMessage(),
+                ]
+            )->withInput();
+        }
+    }
+
+    public function deleteCategory($id)
+    {
+        $category = Category::find($id);
+
+        if (!$category) {
+            redirect()->back()->with(
+                'message',
+                [
+                    'status'  => 'error',
+                    'content' => 'Category is not found',
+                ]
+            );
+        }
+
+        $category->courses()->update(['category_id' => null]);
+        $category->delete();
+
+        return redirect()->back()->with(
+            'message',
+            [
+                'status' => 'success',
+                'content' => 'Category is deleted successfully'
+            ]
+        );
     }
 }

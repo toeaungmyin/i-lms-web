@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Config;
+use App\Models\Course;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -105,7 +107,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::whereNot('name','admin')->get();
-        return view('admin.users.show', ['user' => $user,'roles'=>$roles]);
+        $courses = Course::all();
+
+        return view('admin.users.show', ['user' => $user, 'roles' => $roles, 'courses' => $courses]);
     }
 
     /**
@@ -187,5 +191,51 @@ class UserController extends Controller
             'status' => 'success',
             'content' => $message,
         ]);
+    }
+
+    public function attachToCourse(Request $request, string $id)
+    {
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        try {
+            $validatedData = $request->all();
+
+            $student = User::find($id);
+
+            $course = Course::find($validatedData['course_id']);
+
+            // if (!$student->is_role('student')) {
+            //     return redirect()->back()->with(
+            //         'message',
+            //         [
+            //             'status' => 'error',
+            //             'content' => 'User has not student role',
+            //         ]
+            //     );
+            // }
+
+            $student->attachCourse($course->id);
+
+            return redirect()->back()->with(
+                'message',
+                [
+                    'status' => 'success',
+                    'content' => 'Student is attached to course successfully',
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error('Failed to create user: ' . $e->getMessage());
+
+            redirect()->back()->with(
+                'message',
+                [
+                    'status' => 'error',
+                    'content' => 'User is not attached to the selected course',
+                    'log' => $e->getMessage(),
+                ]
+            )->withInput();
+        }
     }
 }

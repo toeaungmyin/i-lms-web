@@ -64,7 +64,6 @@ class User extends Authenticatable
         return User::whereIn('role_id', $roleIds);
     }
 
-
     public function is_role($roleName){
         return $this->role->name === $roleName;
     }
@@ -78,10 +77,34 @@ class User extends Authenticatable
         return $this->belongsTo(Course::class);
     }
 
-    public function course()
+    public function joinedCourses()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsToMany(Course::class, 'course_has_students', 'student_id');
     }
 
+    public function exams()
+    {
+        return $this->hasManyThrough(
+            Exam::class,             // The final model you want to access (Exam)
+            CourseHasStudent::class, // The intermediate model (CourseHasStudent)
+            'student_id',            // Foreign key on the intermediate model (CourseHasStudent)
+            'course_has_student_id', // Foreign key on the final model (Exam)
+            'id',                    // Local key on the Student model
+            'id'                     // Local key on the CourseHasStudent model
+        );
+    }
+
+
+    public function attachCourse($courseId)
+    {
+        $chs = CourseHasStudent::where('course_id', $courseId)->where('student_id', $this->id)->first();
+        if ($chs) {
+            throw new \Exception('Student is already attached to this course.');
+        }
+        return CourseHasStudent::create([
+            'course_id' => $courseId,
+            'student_id' => $this->id,
+        ]);
+    }
 
 }

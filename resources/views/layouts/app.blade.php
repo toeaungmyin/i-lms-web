@@ -33,6 +33,7 @@
                 {{ $slot }}
             </main>
         </div>
+        <x-btn-loading/>
         @stack('post-scripts')
     </body>
 </html>

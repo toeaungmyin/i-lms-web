@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentHasQuizz extends Model
+class Question extends Model
 {
     use HasFactory;
 
@@ -14,8 +14,16 @@ class StudentHasQuizz extends Model
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
-        'student_id',
-        'quizz_id',
+        'course_id',
+        'question',
+        'answer'
     ];
+
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

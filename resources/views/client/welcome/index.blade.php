@@ -6,12 +6,6 @@
         @include('client.welcome.partials.courses')
         @include('client.welcome.partials.status')
     </div>
-
-    @push('script')
-        <script type="text/javascript">
-            console.log("Hello World");
-        </script>
-    @endpush
 </x-client-layout>
 
 

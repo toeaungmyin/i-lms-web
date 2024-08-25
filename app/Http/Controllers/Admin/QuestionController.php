@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Question;
 use App\Models\Quizz;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class QuizzController extends Controller
+class QuestionController extends Controller
 {
     //this controller return response for api
     public function store(Request $request)
@@ -33,7 +33,7 @@ class QuizzController extends Controller
 
             $validatedData = $validator->validated();
 
-            $quizz = Quizz::create($validatedData);
+            $quizz = Question::create($validatedData);
 
             $data = [
                 'id' => $quizz->id,
@@ -45,7 +45,7 @@ class QuizzController extends Controller
             return response()->json([
                 'message' => [
                     'status' => 'success',
-                    'content' => 'Quizz created successfully',
+                    'content' => 'Question created successfully',
                 ],
                 'data' => $data
             ], 201);
@@ -84,11 +84,11 @@ class QuizzController extends Controller
 
             $course = Course::findOrFail($validatedData['course_id']);
 
-            $quizz = $course->quizzes()->find($id);
+            $quizz = $course->questions()->find($id);
 
             if (!$quizz) {
                 return response()->json([
-                    'message' => 'Quizz not found',
+                    'message' => 'Question not found',
                 ], 404);
             }
 
@@ -99,7 +99,7 @@ class QuizzController extends Controller
             return response()->json([
                 'message' => [
                     'status' => 'success',
-                    'content' => 'Quizz is updated successfully',
+                    'content' => 'Question is updated successfully',
                 ],
                 'data' => $quizz
             ], 201);
@@ -108,7 +108,7 @@ class QuizzController extends Controller
             return response()->json([
                 'message' => [
                     'status' => 'error',
-                    'content' => 'Failed to update quizz',
+                    'content' => 'Failed to update question',
                     'log' => $e->getMessage()
                 ],
             ], 500);
@@ -118,21 +118,21 @@ class QuizzController extends Controller
     public function destroy(string $id)
     {
         try {
-            $assignment = Quizz::findOrFail($id);
+            $assignment = Question::findOrFail($id);
 
             $assignment->delete();
 
             return response()->json([
                 'message' => [
                     'status' => 'success',
-                    'content' => 'Quizz deleted successfully',
+                    'content' => 'Question deleted successfully',
                 ],
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => [
                     'status' => 'error',
-                    'content' => 'Failed to delete quizz',
+                    'content' => 'Failed to delete question',
                     'log' => $e->getMessage()
                 ],
             ], 500);

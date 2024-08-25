@@ -1,8 +1,56 @@
 <x-client-layout>
-    <div class="md:mt-12 md:mx-16 flex gap-8 flex-col overflow-hidden bg-white md:rounded-md !rounded-b-none shadow-sm px-4 md:px-12 pt-12 pb-24">
+    <div class="md:mt-6 md:mx-4 flex gap-8 flex-col overflow-hidden md:rounded-md !rounded-b-none shadow-sm px-4 md:px-12 pt-12 pb-12">
         @include('client.courses.partials.course-detail-heading')
         @include('client.courses.partials.course-detail-chapter')
         @include('client.courses.partials.course-detail-assignment')
-        @include('client.courses.partials.course-detail-quizz')
+
+        <div class="flex flex-col items-center gap-4 bg-white p-8 rounded-md">
+            <h3 class="text-lg font-bold uppercase">
+                Final Online Exam
+            </h3>
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                Allowed Time
+                            </th>
+                            <td class="px-6 py-4 min-w-40 font-bold">
+                                @php
+                                    $hours = floor($course->examTimeLimit / 3600);
+                                    $minutes = floor(($course->examTimeLimit % 3600) / 60);
+                                @endphp
+                                {{ $hours.':'.str_pad($minutes, 2, '0', STR_PAD_LEFT) }}
+                            </td>
+                        </tr>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                Maximun Retake
+                            </th>
+                            <td class="px-6 py-4 min-w-40 font-bold">
+                                {{ $course->maxExamAttempts }}
+                            </td>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                Exam Mark Percentage
+                            </th>
+                            <td class="px-6 py-4 min-w-40 font-bold">
+                                50%
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-center flex-col gap-2">
+                <a href="{{ route('exam.start',$course->id) }}" class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2">{{ __('Take Exam') }}</a>
+                <div class="flex gap-2">
+                    @foreach (Auth::user()->exams as $exam)
+                        <a href="{{ route('exam.result',$exam->id) }}" class="self-center border-2 border-gray-400 text-gray-900 hover:text-gray-50 bg-gray-50 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2 ">{{ __('Show Result Of '.$loop->iteration) }}</a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
     </div>
 </x-client-layout>

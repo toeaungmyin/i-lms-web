@@ -17,7 +17,22 @@ class CourseHasStudent extends Model
     protected $fillable = [
         'course_id',
         'student_id',
-        'completed_percent'
+        'examAttempt',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    public function exams()
+    {
+        return $this->hasMany(Exam::class);
+    }
 
 }

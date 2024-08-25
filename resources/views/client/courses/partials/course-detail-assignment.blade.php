@@ -1,7 +1,4 @@
-<div class="flex flex-col">
-    <h1 class="text-2xl text-center font-bold m-0">
-        Assignements
-    </h1>
+<div class="flex flex-col bg-white p-4 rounded-md">
     @foreach ($course->assignments as $assignment)
         <div class="p-4">
             <div class="flex justify-between">
@@ -48,8 +45,6 @@
                     @endif
                 </a>
 
-            </div>
-            <div class="border-b-2 border-gray-300">
             </div>
         </div>
     @endforeach

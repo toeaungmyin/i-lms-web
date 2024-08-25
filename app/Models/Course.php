@@ -20,6 +20,10 @@ class Course extends Model
         'description',
         'category_id',
         'instructor_id',
+        'maxExamAttempts',
+        'examTimeLimit',
+        'assignment_grade_percent',
+        'exam_grade_percent'
     ];
 
     public function category()
@@ -33,7 +37,7 @@ class Course extends Model
 
     public function students()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class, 'course_has_students', 'course_id');
     }
 
     public function chapters()
@@ -41,9 +45,9 @@ class Course extends Model
         return $this->hasMany(Chapter::class);
     }
 
-    public function quizzes()
+    public function questions()
     {
-        return $this->hasMany(Quizz::class);
+        return $this->hasMany(Question::class);
     }
 
     public function assignments()

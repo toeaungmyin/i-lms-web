@@ -34,7 +34,7 @@
                         </div>
                     </th>
                     <td class="px-6 py-4 text-nowrap">
-                        {{ $course->category->name }}
+                        {{ $course->category ? $course->category->name : '' }}
                     </td>
                     <td class="px-6 py-4 text-nowrap">
                         {{ $course->instructor->name }}

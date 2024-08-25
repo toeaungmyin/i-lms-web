@@ -46,6 +46,38 @@
                 @enderror
             </div>
         </div>
+        <div class="grid gap-6 grid-cols-2">
+            <div>
+                <label for="maxExamAttempts" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Max Exam Retake</label>
+                <input type="number" id="maxExamAttempts" name="maxExamAttempts" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="0" required />
+                @error('maxExamAttempts')
+                    <span class="text-red-800">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="examTimeLimit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Exam Allowed Time(seconds)</label>
+                <input type="number" id="examTimeLimit" name="examTimeLimit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="3600" required />
+                @error('examTimeLimit')
+                    <span class="text-red-800">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <div class="grid gap-6 grid-cols-2">
+            <div>
+                <label for="assignment_grade_percent" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Exam Grade Percent</label>
+                <input type="number" id="assignment_grade_percent" name="assignment_grade_percent" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="80" required />
+                @error('assignment_grade_percent')
+                    <span class="text-red-800">{{ $message }}</span>
+                @enderror
+            </div>
+            <div>
+                <label for="exam_grade_percent" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Assignment Grade Percent</label>
+                <input type="number" id="exam_grade_percent" name="exam_grade_percent" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="20" required />
+                @error('exam_grade_percent')
+                    <span class="text-red-800">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
     </div>
     <x-primary-button>
         {{ __('Submit') }}

@@ -6,6 +6,7 @@ use App\Models\Assignment;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\Question;
 use App\Models\Quizz;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,25 +26,29 @@ class CourseSeeder extends Seeder
                 'Advanced English'
             ],
             'Spanish' => [
-                'Conversational Spanish',
-                'Business Spanish'
+                'Beginner Spanish',
+                'Intermediate Spanish',
+                'Advanced Spanish'
             ],
             'French' => [
                 'Beginner French',
+                'Intermediate French',
                 'Advanced French'
             ],
             'German' => [
-                'German for Travelers'
+                'Beginner German',
+                'Intermediate German',
+                'Advanced German'
             ],
             'Chinese' => [
-                'Mandarin Chinese Basics'
+                'Beginner Chinese',
+                'Intermediate Chinese',
+                'Advanced Chinese'
             ],
             'Japanese' => [
-                'Japanese Language and Culture'
-            ],
-            'Thai' => [
-                'Beginner Thai',
-                'Advanced Thai'
+                'Japanese Language and Culture Beginner',
+                'Japanese Language and Culture Intermediate',
+                'Japanese Language and Culture Advanced'
             ],
         ];
         $index = 0;
@@ -51,7 +56,6 @@ class CourseSeeder extends Seeder
             $category = Category::create([
                 'name' => $cat_key,
             ]);
-
 
             foreach ($courses as $course) {
                 $imageID = $index > 0 ? '-'.$index : '';
@@ -82,7 +86,7 @@ class CourseSeeder extends Seeder
                 }
 
                 for ($i = 0; $i < 5; $i++) {
-                    Quizz::create([
+                    Question::create([
                         'course_id' => $course->id,
                         'question' => 'Is the capital of ' . $cat_key . ' is ' . fake()->city() . '?',
                         'answer' => 'true',

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +15,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard.index');
+        $courses = Course::all();
+        $events = Event::all();
+        $students = User::whereRole(['student'])->get();
+        $instructors = User::whereRole(['instructor'])->get();
+        return view('admin.dashboard.index', ['students' => $students, 'courses' => $courses, 'instructors' => $instructors, 'events' => $events]);
     }
 
     /**

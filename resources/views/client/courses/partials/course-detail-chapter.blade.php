@@ -1,4 +1,4 @@
-<div class="flex flex-col">
+<div class="flex flex-col bg-white p-4 rounded-md">
     @foreach ($course->chapters as $chapter)
         <div class="flex flex-col gap-2 p-4">
             <div class="flex justify-between">
@@ -41,9 +41,6 @@
                         </span>
                     </a>
                 @endforeach
-            </div>
-            <div class="border-b-2 border-gray-300">
-
             </div>
         </div>
     @endforeach

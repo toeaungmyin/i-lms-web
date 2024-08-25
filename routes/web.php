@@ -6,10 +6,11 @@ use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\ChapterController as AdminChapterController;
 use App\Http\Controllers\Admin\AssignmentController as AdminAssignmentController;
-use App\Http\Controllers\Admin\QuizzController as AdminQuizzController;
+use App\Http\Controllers\Admin\QuestionController as AdminQuestionController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\CourseController;
 use App\Http\Controllers\Client\EventController;
+use App\Http\Controllers\Client\ExamController;
 use App\Http\Controllers\Client\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 
     Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
+
+    Route::get('/courses/{id}/exam-start', [ExamController::class, 'startExam'])->name('exam.start');
+    Route::post('exam/{id}/submit', [ExamController::class, 'submitExam'])->name('exam.submit');
+    Route::get('/exam/{id}/result', [ExamController::class, 'showExamResult'])->name('exam.result');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -37,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/users', [AdminUserController::class, 'store'])->name('dashboard.users.store');
         Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('dashboard.users.update');
         Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('dashboard.users.destroy');
+        Route::post('/users/{id}/attach-course', [AdminUserController::class, 'attachToCourse'])->name('dashboard.users.attachToCourse');
 
         Route::get('/events', [AdminEventController::class, 'index'])->name('dashboard.events');
         Route::get('/event/create', [AdminEventController::class, 'create'])->name('dashboard.event.create');
@@ -52,6 +58,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/courses/{id}', [AdminCourseController::class, 'update'])->name('dashboard.courses.update');
         Route::delete('/courses/{id}', [AdminCourseController::class, 'destroy'])->name('dashboard.courses.destroy');
 
+        Route::post('/categories', [AdminCourseController::class, 'storeCategory'])->name('dashboard.categories.store');
+        Route::delete('/categories/{id}', [AdminCourseController::class, 'deleteCategory'])->name('dashboard.categories.delete');
+
         // axios crud api routes
         Route::get('courses/{id}/chapters', [AdminChapterController::class, 'index'])->name('dashboard.chapters');
         Route::post('/chapters', [AdminChapterController::class, 'store'])->name('dashboard.chapters.store');
@@ -63,10 +72,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/assignments/{id}', [AdminAssignmentController::class, 'update'])->name('dashboard.assignments.update');
         Route::delete('/assignments/{id}', [AdminAssignmentController::class, 'destroy'])->name('dashboard.assignments.destroy');
 
-        Route::get('courses/{id}/quizzes', [AdminQuizzController::class, 'index'])->name('dashboard.quizzes');
-        Route::post('/quizzes', [AdminQuizzController::class, 'store'])->name('dashboard.quizzes.store');
-        Route::put('/quizzes/{id}', [AdminQuizzController::class, 'update'])->name('dashboard.quizzes.update');
-        Route::delete('/quizzes/{id}', [AdminQuizzController::class, 'destroy'])->name('dashboard.quizzes.destroy');
+        Route::get('courses/{id}/quizzes', [AdminQuestionController::class, 'index'])->name('dashboard.quizzes');
+        Route::post('/quizzes', [AdminQuestionController::class, 'store'])->name('dashboard.quizzes.store');
+        Route::put('/quizzes/{id}', [AdminQuestionController::class, 'update'])->name('dashboard.quizzes.update');
+        Route::delete('/quizzes/{id}', [AdminQuestionController::class, 'destroy'])->name('dashboard.quizzes.destroy');
     });
 });
 

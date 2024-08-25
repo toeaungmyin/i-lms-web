@@ -22,7 +22,7 @@ class CourseController extends Controller
         }
 
         if ($search) {
-            $courses->where('name', 'like', "%$search%")
+            $courses->where('title', 'like', "%$search%")
                 ->orWhere('description', 'like', "%$search%");
         }
 
@@ -44,4 +44,6 @@ class CourseController extends Controller
             'course' => $course
         ]);
     }
+
+
 }

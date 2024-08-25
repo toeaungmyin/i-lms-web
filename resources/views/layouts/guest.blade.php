@@ -25,6 +25,7 @@
                 {{ $slot }}
             </div>
         </div>
+        <x-btn-loading/>
         @stack('scripts')
     </body>
 </html>

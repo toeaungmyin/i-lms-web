@@ -21,8 +21,6 @@ class Answer extends Model
         'is_correct'
     ];
 
-    protected $table = 'student_has_quizzes';
-
     public function question()
     {
         return $this->belongsTo(Question::class);

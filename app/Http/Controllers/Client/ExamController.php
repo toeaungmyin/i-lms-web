@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Answer;
 use App\Models\Course;
 use App\Models\CourseHasStudent;
 use App\Models\Exam;
@@ -117,25 +118,24 @@ class ExamController extends Controller
 
             foreach ($validatedData['answers'] as $ans) {
                 $answer = json_decode($ans);
-                $quizz = Question::find($answer->question_id);
+                $question = Question::find($answer->question_id);
 
-                if (!$quizz) {
+                if (!$question) {
                     return response()->json([
                         'message' => [
                             'status' => 'error',
-                            'content' => 'Sorry, quiz not found.',
+                            'content' => 'Sorry, question not found.',
                         ],
                     ], 422);
                 }
 
-                $studentAnswer = Question::create([
+                $studentAnswer = Answer::create([
                     'exam_id' => $exam->id,
-                    'quizz_id' => $answer->question_id,
-                    'answer' => $answer->answer,
+                    'question_id' => $question->id,
+                    'value' => $answer->value,
                 ]);
 
-                $studentAnswer->update([
-                    'is_correct' => $studentAnswer->answer == $quizz->answer ? 1 : 0,
+                $studentAnswer->update(['is_correct' => $studentAnswer->answer == $question->answer ? 1 : 0,
                 ]);
 
                 $chs->update([
@@ -161,6 +161,7 @@ class ExamController extends Controller
                     'status' => 'error',
                     'content' => 'An error occurred while submitting the exam.',
                     'log' => $e->getMessage(),
+                    'line' => $e->getTraceAsString(),
                 ],
             ], 500);
         }

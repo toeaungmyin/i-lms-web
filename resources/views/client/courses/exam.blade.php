@@ -14,7 +14,7 @@
             </div>
             <form id="exam-form" action="{{ route('exam.submit',$activeExam->id) }}" method="POST" class="flex flex-col gap-4">
                 @csrf
-                @foreach ($course->quizzes as $quizz)
+                @foreach ($course->questions as $quizz)
                     <div class="flex flex-col gap-2 bg-slate-200 border border-slate-300 rounded p-8">
                         <div class="flex gap-4">
                             <div class="text-right font-bold">
@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="max-w-60 flex justify-center items-center gap-4">
                                     <label for="answer-{{ $quizz->id }}" class="block text-sm font-medium text-gray-900 dark:text-white text-nowrap pb-1">Answer :</label>
-                                    <input name="w[]" type="text" data-question-id="{{ $quizz->id }}" id="answer-{{ $quizz->id }}" class="bg-green-50 text-blue-500 border-b-2 border-0 border-green-300 text-sm font-bold font-mono focus:ring-0 focus:border-green-400 block w-full p-0.5" />
+                                    <input type="text" data-question-id="{{ $quizz->id }}" id="answer-{{ $quizz->id }}" class="bg-green-50 text-blue-500 border-b-2 border-0 border-green-300 text-sm font-bold font-mono focus:ring-0 focus:border-green-400 block w-full p-0.5" />
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                         answersInputs.forEach(input => {
                             answers.push({
                                 'question_id' : input.getAttribute('data-question-id'),
-                                'answer' : input.value
+                                'value' : input.value
                             })
                         });
 

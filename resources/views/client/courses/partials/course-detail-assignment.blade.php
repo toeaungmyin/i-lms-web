@@ -68,7 +68,7 @@
                         <div class="md:w-5/6 flex px-4 py-2">
                             @if ($remainingTime < 1 && !$chs->is_finish)
                                 <div class="flex items-center justify-center w-full">
-                                    <label for="assignment-file-{{ $assignment->id }}" class="relative flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                    <label for="assignment-file-{{ $assignment->id }}" class="relative flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 dark:border-gray-600 ">
                                         <div id="assignment-dropzone-cover-{{ $assignment->id }}" class="flex flex-col items-center justify-center pt-5 pb-6">
                                             @php
                                                 $stdAssignment = $assignment->studentHasAssignment()->where('student_id',Auth::id())->first();

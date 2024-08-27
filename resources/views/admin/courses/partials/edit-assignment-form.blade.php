@@ -58,7 +58,3 @@
         </form>
     </div>
 </div>
-
-
-@push('post-scripts')
-@endpush

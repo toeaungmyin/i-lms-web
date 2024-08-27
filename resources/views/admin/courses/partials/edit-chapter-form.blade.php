@@ -40,9 +40,9 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                 </svg>
                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400" >PPTX, PDF, DOC or ZIP</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400" >PPTX, PDF, DOC, MP3, MP4 or ZIP</p>
                             </div>
-                            <input id="chapter-dropzone-file-{{ $chapter->id }}" type="file" class="hidden" name="assets[]" accept=".pptx,.doc,.docx,.pdf,.zip" multiple/>
+                            <input id="chapter-dropzone-file-{{ $chapter->id }}" type="file" class="hidden" name="assets[]" accept=".pptx,.doc,.docx,.pdf,.zip,.mp4,.mp3" multiple/>
                             <div id="progress-container-{{ $chapter->id }}" class="hidden absolute w-full h-full justify-center items-center transition-opacity duration-100">
                                 <div class="absolute top-0 left-0 w-full h-full bg-gray-200 opacity-60 cursor-not-allowed"></div>
                                 <div class="w-64 h-6 rounded-sm bg-gray-300 relative flex justify-center items-center overflow-hidden">
@@ -122,7 +122,7 @@
                 const formData = new FormData(updateLessonForm{{ $chapter->id }});
                 const response = await axios.post("{{ route('dashboard.chapters.update',$chapter->id) }}",formData);
 
-                showAlertMessage(response.data.message.status,response.data.message.content)
+                showAlertMessage(response.data.message)
 
                 document.getElementById("chapter-title-{{ $chapter->id }}").value = response.data.data.title;
                 document.getElementById("chapter-description-{{ $chapter->id }}").value = response.data.data.description;
@@ -132,12 +132,12 @@
             } catch (error) {
                 if (error.response && error.response.data.errors) {
                     console.log(error.response.data.message.log);
-                    showAlertMessage(error.response.data.message.status,error.response.data.message.content)
+                    showAlertMessage(error.response.data.message)
 
                 } else {
                     console.error(error);
                     // Handle other errors, e.g., network issues
-                    showAlertMessage(error.response.data.message.status,error.response.data.message.content)
+                    showAlertMessage(error.response.data.message)
                 }
             }
         });

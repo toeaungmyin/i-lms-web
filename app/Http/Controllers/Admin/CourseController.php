@@ -167,6 +167,50 @@ class CourseController extends Controller
         }
     }
 
+    public function destroy($id)
+    {
+        $course = Course::findOrFail($id);
+
+        $chapters = $course->chapters;
+
+        if ($chapters) {
+            foreach ($chapters as $chapter) {
+                $assets = json_decode($chapter->assets, true);
+
+                foreach ($assets as $asset) {
+                    Storage::disk('public')->delete($asset);
+                }
+
+                $chapter->delete();
+            }
+        }
+
+        $assignments = $course->assignments;
+
+        if ($assignments) {
+            foreach ($assignments as $assignment) {
+                Storage::disk('public')->delete($assignment->file);
+                $assignment->delete();
+            }
+        }
+
+
+        $course->questions()->delete();
+        $course->course_has_students()->delete();
+
+        $course->delete();
+
+        return redirect()->back()->with(
+            'message',
+            [
+                'status'  => 'success',
+                'content' => 'Course is deleted successfully',
+            ]
+        );
+    }
+
+
+
     public function storeCategory(Request $request)
     {
         $request->validate([

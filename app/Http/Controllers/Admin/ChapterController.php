@@ -20,7 +20,7 @@ class ChapterController extends Controller
                 'title' => 'required|string',
                 'description' => 'nullable|string',
                 'assets' => 'nullable|array',
-                'assets.*' => 'nullable|file|mimes:pptx,pdf,docx,zip|max:20000',
+                'assets.*' => 'nullable|file|mimes:pptx,pdf,docx,zip,mp3,mp4|max:200000',
             ]);
 
             if ($validator->fails()) {
@@ -40,7 +40,7 @@ class ChapterController extends Controller
             if ($request->hasFile('assets')) {
                 $assets = [];
                 foreach ($request->file('assets') as $key => $file) {
-                    $fileName = $course->name . $validatedData['title'] . $key . '.' . $file->getClientOriginalExtension();
+                    $fileName = time() . '.' . $file->getClientOriginalExtension();
                     Storage::disk('public')->putFileAs('courses/assets', $file, $fileName);
                     $assets[] = 'storage/courses/assets/' . $fileName;
                 }
@@ -76,14 +76,14 @@ class ChapterController extends Controller
                 'course_id' => 'required|integer',
                 'title' => 'required|string',
                 'description' => 'nullable|string',
-                'assets.*' => 'required|file|mimes:pptx,pdf,docx,zip|max:20000',
+                'assets.*' => 'nullable|file|mimes:pptx,pdf,docx,zip,mp3,mp4|max:200000',
             ]);
 
             if ($validator->fails()) {
                 return response()->json(['message' => [
                         'status' => 'error',
                         'content' => 'Validation Failed',
-                        'log' => $validator->errors()
+                        'log' => $validator->errors(),
                     ],
                 ], 422);
             }
@@ -110,7 +110,7 @@ class ChapterController extends Controller
                         }
                     }
 
-                    $fileName = $course->name . $validatedData['title'] . $key . '.' . $file->getClientOriginalExtension();
+                    $fileName = time() . '.' . $file->getClientOriginalExtension();
                     Storage::disk('public')->putFileAs('courses/assets', $file, $fileName);
                     $assets[] = 'storage/courses/assets/' . $fileName;
                 }

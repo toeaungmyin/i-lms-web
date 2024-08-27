@@ -79,6 +79,8 @@
                     'application/vnd.openxmlformats-officedocument.presentationml.presentation': "{{ asset('assets/icons/ppt.png') }}",
                     'application/x-zip-compressed': "{{ asset('assets/icons/zip.png') }}",
                     'application/zip': "{{ asset('assets/icons/zip.png') }}",
+                    'audio/mpeg': "{{ asset('assets/icons/mp3.png') }}",
+                    'video/mp4': "{{ asset('assets/icons/mp4.png') }}",
                 };
 
                 let icon = "{{ asset('assets/icons/file.png') }}";
@@ -94,6 +96,8 @@
                         'ppt': "{{ asset('assets/icons/ppt.png') }}",
                         'pptx': "{{ asset('assets/icons/ppt.png') }}",
                         'zip': "{{ asset('assets/icons/zip.png') }}",
+                        'mp3': "{{ asset('assets/icons/mp3.png') }}",
+                        'mp4': "{{ asset('assets/icons/mp4.png') }}",
                     };
 
                     if (extensionIcons[extension]) {

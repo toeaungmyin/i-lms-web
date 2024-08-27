@@ -31,15 +31,36 @@
                             break;
                             case 'zip': $icon = 'assets/icons/zip.png';
                             break;
+                            case 'mp3': $icon = 'assets/icons/mp3.png';
+                            break;
+                            case 'mp4': $icon = 'assets/icons/mp4.png';
+                            break;
                             default: $icon = 'assets/icons/file.png';
                         }
                     ?>
-                    <a class="flex flex-col justify-center items-center gap-1" href="{{ asset($item) }}" download>
-                        <img src="{{ asset($icon) }}" class="aspect-square w-8 h-8 md:w-16 md:h-16" alt="">
-                        <span class="text-xs text-blue-600 underline text-wrap">
-                            {{ basename($item) }}
-                        </span>
-                    </a>
+                    @if ($ext == 'mp3')
+                        <div class="flex justify-center items-center gap-2">
+                            <audio controls>
+                                <source src="{{ asset($item) }}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    @elseif ($ext == 'mp4')
+                        <div class="flex flex-col justify-center items-center gap-2">
+                            <video class="w-full max-w-xl" controls>
+                                <source src="{{ asset($item) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    @else
+                        <a class="flex flex-col justify-center items-center gap-1" href="{{ asset($item) }}" download>
+                            <img src="{{ asset($icon) }}" class="aspect-square w-8 h-8 md:w-16 md:h-16" alt="">
+                            <span class="text-xs text-blue-600 underline text-wrap">
+                                {{ basename($item) }}
+                            </span>
+                        </a>
+                    @endif
+
                 @endforeach
             </div>
         </div>

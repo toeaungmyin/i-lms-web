@@ -41,9 +41,12 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('dashboard')">
-                                {{ __('Dashboard') }}
-                            </x-dropdown-link>
+                            @if (request()->user()->is_role('admin'))
+                                <x-dropdown-link :href="route('dashboard')">
+                                    {{ __('Dashboard') }}
+                                </x-dropdown-link>
+                            @endif
+
 
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
@@ -105,9 +108,12 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-responsive-nav-link>
+                    @if (request()->user()->is_role('admin'))
+                        <x-responsive-nav-link :href="route('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-responsive-nav-link>
+                    @endif
+
                     <x-responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>

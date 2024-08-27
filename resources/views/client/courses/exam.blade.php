@@ -66,6 +66,7 @@
                 }, 1000);
 
                 const answersInputs = document.querySelectorAll('[id^="answer-"]');
+                console.log(answersInputs);
 
                 const examForm = document.getElementById('exam-form');
 
@@ -74,7 +75,7 @@
                     submitExam()
                 });
 
-                const submitExam = () =>{
+                const submitExam = async () =>{
                     startLoading(true,"exam-form-submit-btn")
 
                     try {

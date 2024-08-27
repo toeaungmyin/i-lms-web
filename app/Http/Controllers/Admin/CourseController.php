@@ -281,7 +281,17 @@ class CourseController extends Controller
         try {
             $validatedData = $request->all();
 
-            $student = User::where('STDID', $validatedData['STDID'])->first();
+            $student = User::where('role_id', 3)->where('STDID', $validatedData['STDID'])->first();
+
+            if (!$student) {
+                return redirect()->back()->with(
+                    'message',
+                    [
+                        'status' => 'error',
+                        'content' => 'Student with ' . $validatedData['STDID'] . ' not found',
+                    ]
+                );
+            }
 
             $course = Course::find($id);
 
@@ -297,7 +307,7 @@ class CourseController extends Controller
         } catch (\Exception $e) {
             Log::error('Failed to create user: ' . $e->getMessage());
 
-            redirect()->back()->with(
+            return redirect()->back()->with(
                 'message',
                 [
                     'status' => 'error',

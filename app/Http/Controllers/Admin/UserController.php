@@ -27,26 +27,33 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->search;
-
+        $search = $request->input('search');
         $instructor = $request->user();
-        if ($instructor->is_role('instructor')) {
-            $query = User::whereHas('joinedCourses', function ($query) use ($instructor) {
-                $query->where('instructor_id', $instructor->id);
-            });
-        } else {
-            $query = User::whereRole(['student', 'instructor']);
-        }
+
+        $query = User::query();
 
         if ($search) {
-            $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%')
-                ->orWhere('phone', 'like', '%' . $search . '%')
-                ->orWhere('STDID', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%')
+                    ->orWhere('STDID', 'like', '%' . $search . '%');
+            });
         }
+
+        if ($instructor->is_role('instructor')) {
+            $query->where('role_id', 3)
+            ->whereHas('joinedCourses', function ($q) use ($instructor) {
+                $q->where('instructor_id', $instructor->id);
+            });
+        } else {
+            $query->whereIn('role_id', [2, 3]);
+        }
+
         $users = $query->paginate(10);
 
-        return view('admin.users.index', ['users' => $users]);
+        return view('admin.users.index', compact('users'));
+
     }
 
     /**

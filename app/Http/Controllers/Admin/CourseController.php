@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -53,10 +54,12 @@ class CourseController extends Controller
     {
         $course = Course::find($id);
         $categories = Category::all();
+        $students = $course->students;
 
         return view('admin.courses.show', [
             'course' => $course,
-            'categories' => $categories
+            'categories' => $categories,
+            'students' => $students
         ]);
     }
 
@@ -267,5 +270,41 @@ class CourseController extends Controller
                 'content' => 'Category is deleted successfully'
             ]
         );
+    }
+
+    public function enrollStudent(Request $request, string $id)
+    {
+        $request->validate([
+            'STDID' => 'required|exists:users,STDID',
+        ]);
+
+        try {
+            $validatedData = $request->all();
+
+            $student = User::where('STDID', $validatedData['STDID'])->first();
+
+            $course = Course::find($id);
+
+            $student->attachCourse($course->id);
+
+            return redirect()->back()->with(
+                'message',
+                [
+                    'status' => 'success',
+                    'content' => 'Student is enrolled to course successfully',
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error('Failed to create user: ' . $e->getMessage());
+
+            redirect()->back()->with(
+                'message',
+                [
+                    'status' => 'error',
+                    'content' => 'User is not attached to the selected course',
+                    'log' => $e->getMessage(),
+                ]
+            )->withInput();
+        }
     }
 }

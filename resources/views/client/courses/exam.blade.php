@@ -55,6 +55,10 @@
 
                     const countdownElement = document.getElementById('countdown')
                     countdownElement.innerHTML= `${hours} : ${minutes} : ${seconds}`
+
+                    if(remainingTime < 0){
+                        submitExam()
+                    }
                 }
 
                 setInterval(() => {
@@ -67,7 +71,10 @@
 
                 examForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
+                    submitExam()
+                });
 
+                const submitExam = () =>{
                     startLoading(true,"exam-form-submit-btn")
 
                     try {
@@ -105,8 +112,7 @@
                         }
                     }
                     startLoading(false,"exam-form-submit-btn")
-
-                });
+                }
 
             </script>
         @endpush

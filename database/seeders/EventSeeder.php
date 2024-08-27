@@ -36,11 +36,12 @@ class EventSeeder extends Seeder
             'Cross-Cultural Panel Discussion'
         ];
         $index = 1;
+        $date = now()->subDays(5);
         foreach ($events as $event) {
             Event::create(['cover' => 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-' . $index . '.jpg',
                 'title'=> ucwords($event),
                 'description'=>fake()->text(),
-                'date' => fake()->date(),
+                'date' => $date->addDay(),
             ]);
 
             if ($index > 10) {

@@ -16,6 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('student_id');
             $table->integer('examAttempt')->default(0);
+            $table->integer('assignment_mark')->default(0);
+            $table->integer('exam_mark')->default(0);
+            $table->boolean('is_finish')->default(0);
             $table->timestamps();
 
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');

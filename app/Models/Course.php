@@ -23,7 +23,7 @@ class Course extends Model
         'maxExamAttempts',
         'examTimeLimit',
         'assignment_grade_percent',
-        'exam_grade_percent'
+        'exam_grade_percent',
     ];
 
     public function category()

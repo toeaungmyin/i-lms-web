@@ -4,7 +4,7 @@
             @php
                 $remainingTime = Carbon\Carbon::parse($assignment->due_date)->diffInSeconds(Carbon\Carbon::now());
             @endphp
-        <form action="{{ route('asignment.submit',$assignment->id) }}" enctype="multipart/form-data" id="assignemnt-upload-form-{{ $assignment->id }}" method="POST" class="flex flex-col gap-2">
+        <form action="{{ route('asignment.submit',$assignment->id) }}" enctype="multipart/form-data" id="assignemnt-upload-form-{{ $assignment->id }}" method="POST" class="flex flex-col gap-2 p-4">
             @csrf
             <h3 class="text-xl font-bold m-0">{{ $assignment->title }}</h3>
             <ul class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
@@ -66,7 +66,7 @@
                             Uploaded File
                         </div>
                         <div class="md:w-5/6 flex px-4 py-2">
-                            @if ($remainingTime < 1)
+                            @if ($remainingTime < 1 && !$chs->is_finish)
                                 <div class="flex items-center justify-center w-full">
                                     <label for="assignment-file-{{ $assignment->id }}" class="relative flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                         <div id="assignment-dropzone-cover-{{ $assignment->id }}" class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -160,7 +160,7 @@
                 </li>
             </ul>
 
-            @if ($remainingTime < 1)
+            @if ($remainingTime < 1 && !$chs->is_finish)
                 <div class="flex justify-end">
                     <x-primary-button id="exam-form-submit-btn">
                         {{ __('Submit') }}

@@ -29,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/exams/{id}/result', [ExamController::class, 'showExamResult'])->name('exam.result');
     Route::post('/assignments/{id}/submit', [CourseController::class, 'submitAssignment'])->name('asignment.submit');
     // Route::get('/assignments/{id}/', [CourseController::class, 'showExamResult'])->name('exam.result');
+    Route::get('/courses/{id}/finish', [CourseController::class, 'finishCourse'])->name('course.finish');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

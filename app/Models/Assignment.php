@@ -25,4 +25,9 @@ class Assignment extends Model
     {
         return $this->hasOne(StudentHasAssignment::class);
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

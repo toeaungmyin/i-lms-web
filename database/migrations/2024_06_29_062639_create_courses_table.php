@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('cover');
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->integer('maxExamAttempts')->default(1);
             $table->integer('examTimeLimit')->default(3600);
             $table->integer('assignment_grade_percent')->default(20);

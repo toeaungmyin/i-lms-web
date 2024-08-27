@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseHasStudent;
 use App\Models\StudentHasAssignment;
 use App\Models\User;
 use Carbon\Carbon;
@@ -58,8 +59,10 @@ class CourseController extends Controller
                 ]
             );
         }
+        $chs = $course->course_has_students->where('student_id', $user->id)->first();
         return view('client.courses.show', [
-            'course' => $course
+            'course' => $course,
+            'chs' => $chs
         ]);
     }
 
@@ -75,6 +78,7 @@ class CourseController extends Controller
             $user = Auth::user();
 
             $assignment = Assignment::find($validated['assignment_id']);
+            $course = $assignment->course;
             $remainingTime = Carbon::parse($assignment->due_date)->diffInSeconds(Carbon::now());
             if ($remainingTime > 1) {
                 return redirect()->back()->with(
@@ -123,6 +127,28 @@ class CourseController extends Controller
                 ]
             );
         }
+    }
+
+    public function finishCourse($id)
+    {
+        $user = Auth::user();
+        $course = Course::findOrFail($id);
+        $studentAssignments = $course->assignments->pluck('studentHasAssignment')->where('student_id', $user->id)->where('file', '!=', null)->count();
+        $assignment_mark = ($studentAssignments / $course->assignments->count()) * $course->assignment_grade_percent;
+        $chs = CourseHasStudent::where('course_id', $course->id)->where('student_id', $user->id)->first();
+
+        $chs->update([
+            'assignment_mark' => $assignment_mark,
+            'is_finish' => 1,
+        ]);
+
+        return redirect()->back()->with([
+            'message',
+            [
+                'status'  => 'success',
+                'content' => 'Your mark has been calculated successfully.',
+            ],
+        ]);
     }
 
 

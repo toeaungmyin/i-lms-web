@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamp('started_at')->default(now());
             $table->timestamp('submitted_at')->nullable();
             $table->enum('status', ['active', 'complete']);
+            $table->integer('mark')->default(0);
             $table->timestamps();
 
             $table->foreign('course_has_student_id')->references('id')->on('course_has_students')->onDelete('cascade');

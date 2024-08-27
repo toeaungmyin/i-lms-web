@@ -14,6 +14,7 @@ class Exam extends Model
         'started_at',
         'submitted_at',
         'status',
+        'mark',
     ];
 
     public function course_has_student()

@@ -18,6 +18,9 @@ class CourseHasStudent extends Model
         'course_id',
         'student_id',
         'examAttempt',
+        'assignment_mark',
+        'exam_mark',
+        'is_finish'
     ];
 
     public function student()

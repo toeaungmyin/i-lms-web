@@ -35,15 +35,15 @@
             <div class="flex flex-col items-center justify-center gap-2 font-bold">
                 <div class="flex gap-4 w-1/4 bg-gray-200 p-2 rounded justify-between">
                     <div class="">Total Quizz</div>
-                    {{-- <div class="">{{ $exam->course_has_student->course->quizzes->count() }}</div> --}}
+                    <div class="">{{ $exam->course_has_student->course->questions->count() }}</div>
                 </div>
                 <div class="flex gap-4 w-1/4 bg-gray-200 p-2 rounded justify-between">
                     <div class="">Correct Answer</div>
-                    {{-- <div class="">{{ $exam->answers()->where('is_correct',1)->count() }}</div> --}}
+                    <div class="">{{ $exam->answers()->where('is_correct',1)->count() }}</div>
                 </div>
                 <div class="flex gap-4 w-1/4 bg-gray-200 p-2 rounded justify-between">
                     <div class="">Exam Mark Percentage</div>
-                    {{-- <div class="">{{ ($exam->answers()->where('is_correct',1)->count()/$exam->course_has_student->course->quizzes->count() * 50 )." %" }}</div> --}}
+                    <div class="">{{ $exam->mark }}</div>
                 </div>
             </div>
         </div>

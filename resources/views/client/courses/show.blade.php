@@ -43,13 +43,13 @@
                 </table>
             </div>
             <div class="flex justify-center flex-col gap-2">
-                @if ($course->course_has_students->where('student_id',Auth::id())->first()->exams()->count() < $course->maxExamAttempts && !$chs->is_finish)
+                @if ($chs->exams()->count() < $course->maxExamAttempts && !$chs->is_finish)
                     <a href="{{ route('exam.start',$course->id) }}" class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2">{{ __('Take Exam') }}</a>
                 @endif
 
-                @if ($course->course_has_students->where('student_id',Auth::id())->first()->exams()->count() > 0)
+                @if ($chs->exams()->count() > 0)
                     <div class="flex gap-2">
-                        <a href="{{ route('exam.result',Auth::user()->exams->last()->id) }}" class="self-center border-2 border-gray-400 text-gray-900 hover:text-gray-50 bg-gray-50 hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-3 py-2 ">{{ __('Show Result') }}</a>
+                        <a href="{{ route('exam.result',$chs->exams->last()->id) }}" class="self-center border-2 border-gray-400 text-gray-900 hover:text-gray-50 bg-gray-50 hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-3 py-2 ">{{ __('Show Result') }}</a>
                     </div>
                 @endif
 
@@ -57,7 +57,7 @@
         </div>
 
         <div class="flex flex-col items-center justify-center bg-white p-8 rounded-md">
-            @if ($chs->is_finished)
+            @if (!$chs->is_finish)
                 <a href="{{ route('course.finish',$course->id) }}" class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2">{{ __('Finish Course') }}</a>
             @endif
             <div>

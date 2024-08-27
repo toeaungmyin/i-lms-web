@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('course_id');
             $table->string('title');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->text('assets')->nullable();
             $table->timestamps();
 

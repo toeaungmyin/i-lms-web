@@ -28,7 +28,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $query = User::whereRole(['student', 'instructor']);
+
+        $instructor = $request->user();
+        if ($instructor->is_role('instructor')) {
+            $query = User::whereHas('joinedCourses', function ($query) use ($instructor) {
+                $query->where('instructor_id', $instructor->id);
+            });
+        } else {
+            $query = User::whereRole(['student', 'instructor']);
+        }
 
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%')

@@ -20,4 +20,9 @@ class Assignment extends Model
         'file',
         'due_date',
     ];
+
+    public function studentHasAssignment()
+    {
+        return $this->hasOne(StudentHasAssignment::class);
+    }
 }

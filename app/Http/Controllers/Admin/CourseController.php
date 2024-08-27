@@ -18,6 +18,11 @@ class CourseController extends Controller
         $search = $request->search;
         $query = Course::query();
 
+        $user = $request->user();
+        if ($user->is_role('instructor')) {
+            $query->where('instructor_id', $user->id);
+        }
+
         if ($search) {
             $query->where(function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%')

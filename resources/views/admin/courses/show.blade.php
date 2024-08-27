@@ -4,7 +4,7 @@
             {{ $course->title }}
         </h2>
     </x-slot>
-    @include('admin.courses.partials.progress-init')
+    @include('components.progress-init')
 
     <div class="max-w-7xl mx-auto flex flex-col md:gap-6 sm:px-6 lg:px-8">
         <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">

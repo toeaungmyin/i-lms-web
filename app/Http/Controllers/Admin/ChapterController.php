@@ -18,7 +18,7 @@ class ChapterController extends Controller
             $validator = Validator::make($request->all(), [
                 'course_id' => 'required|integer',
                 'title' => 'required|string',
-                'description' => 'required|string',
+                'description' => 'nullable|string',
                 'assets' => 'nullable|array',
                 'assets.*' => 'nullable|file|mimes:pptx,pdf,docx,zip|max:20000',
             ]);
@@ -75,7 +75,7 @@ class ChapterController extends Controller
             $validator = Validator::make($request->all(), [
                 'course_id' => 'required|integer',
                 'title' => 'required|string',
-                'description' => 'required|string',
+                'description' => 'nullable|string',
                 'assets.*' => 'required|file|mimes:pptx,pdf,docx,zip|max:20000',
             ]);
 
@@ -118,9 +118,7 @@ class ChapterController extends Controller
                 $validatedData['assets'] = json_encode($assets);
             }
 
-            $chapter->update(array_filter($validatedData, function ($value) {
-                return $value !== null;
-            }));
+            $chapter->update($validatedData);
 
             return response()->json([
                 'message' => [

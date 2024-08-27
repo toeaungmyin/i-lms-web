@@ -19,16 +19,23 @@
             </div>
         </form>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-4">
-            @foreach ($user->joinedCourses as $course)
+            @php
+                if(request()->user()->is_role('instructor')){
+                    $courses = $user->joinedCourses->where('instructor_id',Auth::id());
+                } else {
+                    $courses = $user->joinedCourses;
+                }
+            @endphp
+            @foreach ($courses as $course)
                 <div class="relative overflow-hidden rounded-lg shadow border group">
                     <img class="h-auto max-w-full" src="{{ asset($course->cover) }}" alt="">
-                    <div class="hidden absolute flex-col justify-center items-center w-full h-1/3 bg-blue-800/80 bottom-0 left-0 text-gray-100 transform translate-y-full group-hover:translate-y-0 group-hover:flex transition duration-1000 ease-out">
-                        <div class="">
-                            <h4 class="text-lg font-semibold">
+                    <div class="min-h-[50%] p-2 absolute flex flex-col justify-center items-center w-full bg-blue-800/80 bottom-0 left-0 text-gray-100 transform translate-y-full group-hover:translate-y-0 group-hover:flex transition duration-200 ease-out">
+                        <div class="flex flex-col items-center">
+                            <h4 class="text-lg font-semibold text-center">
                                 {{ $course->title }}
                             </h4>
-                            <span>
-                                {{ $course->instructor->name }}
+                            <span class="">
+                                by {{ $course->instructor->name }}
                             </span>
                         </div>
                     </div>

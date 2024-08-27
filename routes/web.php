@@ -14,7 +14,7 @@ use App\Http\Controllers\Client\ExamController;
 use App\Http\Controllers\Client\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [WelcomeController::class,'index'])->name('welcome');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/events', [EventController::class, 'index'])->name('events');
 Route::get('/courses', [CourseController::class, 'index'])->name('courses');
 
@@ -25,14 +25,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
 
     Route::get('/courses/{id}/exam-start', [ExamController::class, 'startExam'])->name('exam.start');
-    Route::post('exam/{id}/submit', [ExamController::class, 'submitExam'])->name('exam.submit');
-    Route::get('/exam/{id}/result', [ExamController::class, 'showExamResult'])->name('exam.result');
+    Route::post('exams/{id}/submit', [ExamController::class, 'submitExam'])->name('exam.submit');
+    Route::get('/exams/{id}/result', [ExamController::class, 'showExamResult'])->name('exam.result');
+    Route::post('/assignments/{id}/submit', [CourseController::class, 'submitAssignment'])->name('asignment.submit');
+    // Route::get('/assignments/{id}/', [CourseController::class, 'showExamResult'])->name('exam.result');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::prefix('dashboard')->middleware('role:admin')->group(function () {
+    Route::prefix('dashboard')->middleware('role:admin,instructor')->group(function () {
 
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -80,4 +82,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

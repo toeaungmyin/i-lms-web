@@ -17,6 +17,7 @@ class StudentHasAssignment extends Model
     protected $fillable = [
         'student_id',
         'assignment_id',
+        'file'
     ];
 
     public function user()

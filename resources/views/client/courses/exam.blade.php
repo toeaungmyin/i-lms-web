@@ -21,7 +21,7 @@
                                 {{ $loop->iteration.'.'}}
                             </div>
                             <div class="flex flex-col gap-2 font-semibold">
-                                <div class="flex flex-col">
+                                <div class="">
                                     {!! $quizz->question !!}
                                 </div>
                                 <div class="max-w-60 flex justify-center items-center gap-4">

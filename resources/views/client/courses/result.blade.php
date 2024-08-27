@@ -14,10 +14,10 @@
                 @endif  rounded p-4 px-12">
                     <div class="flex justify-between">
                         <div class="flex gap-4">
-                            <div class="flex flex-col justify-center items-center text-right font-bold">
+                            <div class="flex text-right font-bold">
                             {{ $loop->iteration.'.'}}
                             </div>
-                            <div class="flex justify-center items-center font-semibold">
+                            <div class="flex flex-col font-semibold">
                                 {!! $answer->question->question !!}
                             </div>
                         </div>

@@ -12,7 +12,7 @@
                 </span>
             </div>
             <p class="text-gray-500 font-medium">{{ $chapter->description }}</p>
-            <div class="flex justify-center py-4">
+            <div class="flex gap-2 justify-center py-4">
                 @foreach (json_decode($chapter->assets) as $item)
                     <?php
                         $ext = pathinfo($item, PATHINFO_EXTENSION);

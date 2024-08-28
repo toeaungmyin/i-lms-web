@@ -26,7 +26,7 @@
                                 Answer : <span class="text-gray-900 px-2 font-bold">{{ $answer->value }}</span>
                             </span>
                             <span class="flex justify-start items-center border p-2 font-semibold text-sm border-green-400 bg-green-100 rounded">
-                                Correct Answer : <span class="text-green-600 px-2 font-bold">{{ $answer->question->answer }}</span>
+                                Correct : <span class="text-green-600 px-2 font-bold">{{ $answer->question->answer }}</span>
                             </span>
                         </div>
                     </div>

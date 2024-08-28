@@ -41,7 +41,7 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            @if (request()->user()->is_role('admin'))
+                            @if (request()->user()->is_role('admin') || request()->user()->is_role('instructor'))
                                 <x-dropdown-link :href="route('dashboard')">
                                     {{ __('Dashboard') }}
                                 </x-dropdown-link>
@@ -108,7 +108,7 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    @if (request()->user()->is_role('admin'))
+                    @if (request()->user()->is_role('admin') || request()->user()->is_role('instructor'))
                         <x-responsive-nav-link :href="route('dashboard')">
                             {{ __('Dashboard') }}
                         </x-responsive-nav-link>

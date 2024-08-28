@@ -114,7 +114,7 @@ class User extends Authenticatable
 
     public function assignemnts()
     {
-        return $this->hasMany(StudentHasAssignment::class);
+        return $this->hasMany(StudentHasAssignment::class, 'student_id');
     }
 
 }

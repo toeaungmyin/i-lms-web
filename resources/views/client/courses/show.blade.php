@@ -59,37 +59,39 @@
         <div class="flex flex-col items-center justify-center bg-white p-8 rounded-md">
             @if (!$chs->is_finish)
                 <a href="{{ route('course.finish',$course->id) }}" class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2">{{ __('Finish Course') }}</a>
+            @else
+                <div>
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <tbody>
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Exam Mark
+                                </th>
+                                <td class="px-6 py-4 min-w-40 font-bold">
+                                    {{ $chs->exam_mark }}
+                                </td>
+                            </tr>
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Assignment Mark
+                                </th>
+                                <td class="px-6 py-4 min-w-40 font-bold">
+                                    {{ $chs->assignment_mark }}
+                                </td>
+                            </tr>
+                            <tr class="bg-white dark:bg-gray-800">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Total
+                                </th>
+                                <td class="px-6 py-4 min-w-40 font-bold">
+                                    {{$chs->exam_mark + $chs->assignment_mark }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             @endif
-            <div>
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Exam Mark
-                            </th>
-                            <td class="px-6 py-4 min-w-40 font-bold">
-                                {{ $chs->exam_mark }}
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Assignment Mark
-                            </th>
-                            <td class="px-6 py-4 min-w-40 font-bold">
-                                {{ $chs->assignment_mark }}
-                            </td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Total
-                            </th>
-                            <td class="px-6 py-4 min-w-40 font-bold">
-                                {{$chs->exam_mark + $chs->assignment_mark }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+
         </div>
     </div>
 </x-client-layout>

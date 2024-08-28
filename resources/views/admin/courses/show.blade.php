@@ -6,7 +6,7 @@
     </x-slot>
     @include('components.progress-init')
 
-    <div class="max-w-7xl mx-auto flex flex-col md:gap-6 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col md:gap-6 sm:px-6 lg:px-8W">
         <div class="bg-white text-gray-900 overflow-hidden shadow-sm sm:rounded border">
             @include('admin.courses.partials.edit-course-form')
         </div>
@@ -14,16 +14,16 @@
         <div class="border-b bg-white rounded-md">
             <ul class="flex flex-wrap justify-center -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase" id="chapter-tab" data-tabs-target="#chapter" type="button" role="tab" aria-controls="chapter" aria-selected="false">Chapter</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase" id="chapter-tab" data-tabs-target="#chapter" type="button" role="tab" aria-controls="chapter" aria-selected="false">Chapters</button>
                 </li>
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="assignment-tab" data-tabs-target="#assignment" type="button" role="tab" aria-controls="assignment" aria-selected="false">Assignment</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="assignment-tab" data-tabs-target="#assignment" type="button" role="tab" aria-controls="assignment" aria-selected="false">Assignments</button>
                 </li>
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="quizzes-tab" data-tabs-target="#quizzes" type="button" role="tab" aria-controls="quizzes" aria-selected="false">Quizz</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="quizzes-tab" data-tabs-target="#quizzes" type="button" role="tab" aria-controls="quizzes" aria-selected="false">Questions</button>
                 </li>
                 <li role="presentation">
-                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="mark-tab" data-tabs-target="#mark" type="button" role="tab" aria-controls="mark" aria-selected="false">Mark</button>
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg uppercase hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="mark-tab" data-tabs-target="#mark" type="button" role="tab" aria-controls="mark" aria-selected="false">Students</button>
                 </li>
             </ul>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseHasStudent;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -316,5 +317,30 @@ class CourseController extends Controller
                 ]
             )->withInput();
         }
+    }
+
+    public function checkAssignment(Request $request, $id)
+    {
+
+        $request->validate([
+            'mark' => 'required|numeric',
+            'student_id' => 'required|exists:users,id'
+        ]);
+
+        $user = User::findOrFail($request->student_id);
+        $course = Course::findOrFail($id);
+
+        $chs = CourseHasStudent::where('course_id', $course->id)->where('student_id', $user->id)->first();
+        $chs->update([
+            'assignment_mark' => $request->mark
+        ]);
+
+        return redirect()->back()->with(
+            'message',
+            [
+                'status' => 'success',
+                'content' => 'Assignment is checked successfully'
+            ]
+        );
     }
 }

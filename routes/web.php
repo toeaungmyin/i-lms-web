@@ -61,6 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/courses/{id}', [AdminCourseController::class, 'update'])->name('dashboard.courses.update');
         Route::delete('/courses/{id}', [AdminCourseController::class, 'destroy'])->name('dashboard.courses.destroy');
         Route::post('/courses/{id}/enroll', [AdminCourseController::class, 'enrollStudent'])->name('dashboard.users.enrollStudent');
+        Route::post('/course/{id}/assignment-check', [AdminCourseController::class, 'checkAssignment'])->name('asignment.check');
 
         Route::post('/categories', [AdminCourseController::class, 'storeCategory'])->name('dashboard.categories.store');
         Route::delete('/categories/{id}', [AdminCourseController::class, 'deleteCategory'])->name('dashboard.categories.delete');

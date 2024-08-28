@@ -133,12 +133,11 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         $course = Course::findOrFail($id);
-        $studentAssignments = $course->assignments->pluck('studentHasAssignment')->where('student_id', $user->id)->where('file', '!=', null)->count();
-        $assignment_mark = ($studentAssignments / $course->assignments->count()) * $course->assignment_grade_percent;
+        // $studentAssignments = $course->assignments->pluck('studentHasAssignment')->where('student_id', $user->id)->where('file', '!=', null)->count();
+        // $assignment_mark = ($studentAssignments / $course->assignments->count()) * $course->assignment_grade_percent;
         $chs = CourseHasStudent::where('course_id', $course->id)->where('student_id', $user->id)->first();
 
         $chs->update([
-            'assignment_mark' => $assignment_mark,
             'is_finish' => 1,
         ]);
 

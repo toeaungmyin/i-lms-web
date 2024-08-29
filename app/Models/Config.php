@@ -21,13 +21,14 @@ class Config extends Model
         'is_active',
     ];
 
-    public function generate_student_id(){
+    public function generate_id()
+    {
         $index = $this->curr_id_index + 1;
         $new_std_id = $this->id_prefix . '-' . str_pad($index, 4, '0', STR_PAD_LEFT);
         return $new_std_id;
     }
 
-    public function update_student_id_index()
+    public function update_id_index()
     {
         $this->curr_id_index = $this->curr_id_index + 1;
         $this->save();

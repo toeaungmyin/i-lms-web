@@ -11,8 +11,5 @@
             </div>
         </div>
     </div>
-    @push('scripts')
-
-    @endpush
 </x-app-layout>
 

@@ -16,9 +16,15 @@ class ConfigSeeder extends Seeder
     {
 
         Config::create([
-            'name' => 'default',
+            'name' => 'student',
             'id_prefix' => 'MKPT',
             'is_active'=> '1'
+        ]);
+
+        Config::create([
+            'name' => 'instructor',
+            'id_prefix' => 'INS',
+            'is_active' => '1'
         ]);
 
         $roles = ['admin', 'instructor', 'student'];

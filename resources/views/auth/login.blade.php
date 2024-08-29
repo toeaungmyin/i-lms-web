@@ -7,7 +7,7 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="STDID" :value="__('Student ID')" />
+            <x-input-label for="STDID" :value="__('Student ID / Instructor ID')" />
             <x-text-input id="STDID" class="block mt-1 w-full" type="text" name="STDID" :value="old('STDID')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('STDID')" class="mt-2" />
         </div>

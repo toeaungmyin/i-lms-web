@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'STDID' => Config::first()->generate_student_id(),
+            'STDID' => Config::where('name', 'student')->first()->generate_id(),
             'password' => Hash::make($request->password),
         ]);
 

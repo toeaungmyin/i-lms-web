@@ -16,11 +16,13 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
 
-    public $config;
+    public $std_config;
+    public $ins_config;
 
     public function __construct()
     {
-        $this->config = Config::first();
+        $this->std_config = Config::where('name', 'student')->first();
+        $this->ins_config = Config::where('name', 'instructor')->first();
     }
     /**
      * Display a listing of the resource.
@@ -47,7 +49,7 @@ class UserController extends Controller
                 $q->where('instructor_id', $instructor->id);
             });
         } else {
-            $query->whereIn('role_id', [2, 3]);
+            $query->whereNot('role_id', 1);
         }
 
         $users = $query->paginate(10);
@@ -61,9 +63,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $generated_id = $this->config->generate_student_id();
+        $generated_std_id = $this->std_config->generate_id();
+        $generated_ins_id = $this->ins_config->generate_id();
         $roles = Role::whereNot('name', 'admin')->get();
-        return view('admin.users.create', ['roles' => $roles, 'generated_id' => $generated_id]);
+        return view('admin.users.create', ['roles' => $roles, 'generated_std_id' => $generated_std_id, 'generated_ins_id' => $generated_ins_id]);
     }
 
     /**
@@ -81,8 +84,11 @@ class UserController extends Controller
 
         try {
             $validated = $request->all();
-
-            $generated_id = $this->config->generate_student_id();
+            if ($validated['role'] == 'student') {
+                $generated_id = $this->std_config->generate_id();
+            } else if ($validated['role'] == 'instructor') {
+                $generated_id = $this->ins_config->generate_id();
+            }
 
             $validated['STDID'] = $generated_id;
 
@@ -92,7 +98,11 @@ class UserController extends Controller
 
             $user->assignRole($validated['role']);
 
-            $this->config->update_student_id_index();
+            if ($validated['role'] == Role::where('name', 'student')->first()->id) {
+                $this->std_config->update_id_index();
+            } else if ($validated['role'] == Role::where('name', 'instructor')->first()->id) {
+                $this->ins_config->update_id_index();
+            }
 
             return redirect(route('dashboard.users'))->with(
                 'message',
@@ -104,7 +114,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
             Log::error('Failed to create user: ' . $e->getMessage());
 
-            redirect(route('dashboard.users.create'))->with(
+            redirect()->back()->with(
                 'message',
                 [
                     'status' => 'error',

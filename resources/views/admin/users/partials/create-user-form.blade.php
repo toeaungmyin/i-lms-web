@@ -14,15 +14,15 @@
             @enderror
         </div>
         <div>
-            <label for="STDID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Student ID <span class="text-xs text-gray-500">(generated)</span></label>
-            <input type="text" name="STDID" name="STDID" class="bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled value="{{ $generated_id }}" />
+            <label for="STDID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID <span class="text-xs text-gray-500">(generated)</span></label>
+            <input type="text" id="STDID" name="STDID" class="bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled value="{{ $generated_ins_id }}" />
             @error('STDID')
                 <span class="text-red-800">{{ $message }}</span>
             @enderror
         </div>
         <div>
             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-            <input type="tel" name="phone" name="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="+959/09" pattern="^(\+959\d{9}|09\d{9})$" required />
+            <input type="tel" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="+959/09" pattern="^(\+959\d{9}|09\d{9})$" required />
             @error('phone')
                 <span class="text-red-800">{{ $message }}</span>
             @enderror
@@ -61,3 +61,24 @@
         {{ __('Submit') }}
     </x-primary-button>
 </form>
+
+@push('post-scripts')
+    <script>
+        const generated_std_id = "{{ $generated_std_id }}"
+        const generated_ins_id = "{{ $generated_ins_id }}"
+
+        const id_input =document.getElementById('STDID')
+        const role_input =document.getElementById('role')
+
+        role_input.addEventListener('change',(e)=>{
+            let role = e.target.value;
+
+            if(role == 'student'){
+                id_input.value = generated_std_id;
+            }else if(role == 'instructor'){
+                id_input.value = generated_ins_id;
+            }
+        })
+
+    </script>
+@endpush

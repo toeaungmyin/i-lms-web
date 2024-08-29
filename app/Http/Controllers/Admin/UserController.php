@@ -98,9 +98,9 @@ class UserController extends Controller
 
             $user->assignRole($validated['role']);
 
-            if ($validated['role'] == Role::where('name', 'student')->first()->id) {
+            if ($validated['role'] == 'student') {
                 $this->std_config->update_id_index();
-            } else if ($validated['role'] == Role::where('name', 'instructor')->first()->id) {
+            } else if ($validated['role'] == 'instructor') {
                 $this->ins_config->update_id_index();
             }
 

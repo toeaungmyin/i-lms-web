@@ -1,0 +1,72 @@
+---
+alwaysApply: true
+---
+
+# Cursor Agent Coding Rules
+
+## 1. Code Consistency
+- Always analyze existing code patterns, architecture, and conventions before implementing anything new.
+- Match the existing coding style exactly:
+  - Naming conventions (camelCase, PascalCase, etc.)
+  - File structure and module boundaries
+  - Error handling patterns
+  - Dependency usage
+- Do not introduce new patterns if an equivalent already exists in the codebase.
+
+## 2. Human-like Code Quality
+- Write code as if a senior engineer authored it.
+- Prioritize clarity over cleverness.
+- Avoid unnecessary abstractions or premature optimization.
+- Ensure code is readable, maintainable, and self-explanatory.
+
+## 3. Minimal Changes Principle
+- Do not modify existing files unless it is strictly necessary.
+- Avoid refactoring unrelated code.
+- Keep diffs small and focused on the task.
+
+## 4. Structural Discipline
+- Follow the project's architecture strictly.
+- Place new logic in the correct layer.
+- Do not mix responsibilities across layers.
+
+## 5. Naming & Semantics
+- Use meaningful, intention-revealing names.
+- Avoid vague names like `data`, `temp`, `value`.
+- Match domain terminology already used in the project.
+- Use REST-style controller method names:
+  - index, show, store, update, destroy
+  - use create/edit only for view/form handlers (if applicable)
+- Use short, single-word names for extra actions when possible (e.g., search, filter, sync)
+- Prefer minimal, intention-revealing names; avoid multi-word verbs unless necessary
+
+## 6. Error Handling
+- Follow existing error handling strategy (try/catch, middleware, custom errors).
+- Do not introduce inconsistent error formats.
+- Ensure all edge cases are handled explicitly.
+
+## 7. Dependencies & Imports
+- Reuse existing utilities and helpers where possible.
+- Do not introduce new libraries without strong justification.
+- Keep imports consistent with the existing style.
+
+## 8. Comments & Documentation
+- Write comments only when necessary.
+- Prefer self-documenting code over excessive comments.
+- Avoid redundant comments that restate the obvious.
+
+## 9. Formatting
+- Follow existing formatting rules strictly (indentation, spacing, line breaks).
+- Do not reformat unrelated code.
+
+## 10. Completeness
+- Ensure implementations are production-ready.
+- No placeholders, TODOs, or incomplete logic unless explicitly requested.
+- Validate inputs and handle failure scenarios.
+
+## 11. Testing Awareness
+- Follow existing testing patterns if tests are present.
+- Ensure new logic is testable and deterministic.
+
+## 12. Respect Existing Logic
+- Do not break or alter existing behavior.
+- Assume current implementation decisions were intentional unless clearly incorrect.
